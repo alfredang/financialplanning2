@@ -6,6 +6,8 @@ One-page website for **Horizon Wealth Planning**, built with plain HTML, CSS and
 
 **Live site:** https://alfredang.github.io/financialplanning2/
 
+![Horizon Wealth Planning homepage](docs/screenshot.png)
+
 ## Features
 
 - **Sticky header** with anchor navigation and a mobile hamburger menu. Anchor jumps are offset so the header never covers a section heading.
@@ -46,6 +48,7 @@ sed -n '/<script>/,/<\/script>/p' index.html | sed '1d;$d' > /tmp/hw_check.js &&
 .
 ├── index.html                    # The whole site: CSS in <head>, JS at the end of <body>
 ├── .github/workflows/pages.yml   # CI checks and GitHub Pages deployment
+├── docs/screenshot.png           # README screenshot (not deployed)
 ├── CLAUDE.md                     # Notes for Claude Code (not deployed)
 └── README.md
 ```
