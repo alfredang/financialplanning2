@@ -1,0 +1,2767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Security: CSP must stay the first policy-relevant tag. Hashes cover the inline style and script blocks;
+       regenerate them with `node scripts/check-csp.mjs v2/index.html --write` after editing either one. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dX/WuT4fgPTSF3GucVGCIRz9pkE+JDmF0lvUllXWRdo='; style-src 'sha256-W5PBQbr5rVXFWMTNO2ECoW4N0f0kkXQjaADw9JDmieg=' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horizon Wealth Planning | Friendly Financial Planning in Singapore</title>
+  <meta name="description" content="Money stuff, minus the stress. Free money personality quiz, retirement calculator, a free 2026 Money Glow-Up Checklist and a free 30-minute chat with a friendly financial planner.">
+  <meta name="theme-color" content="#FFF8F0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cellipse cx='50' cy='56' rx='38' ry='30' fill='%23FFB8C6'/%3E%3Cellipse cx='80' cy='56' rx='11' ry='9' fill='%23FF9BB0'/%3E%3Ccircle cx='64' cy='46' r='4' fill='%231F2A4D'/%3E%3Ccircle cx='50' cy='16' r='10' fill='%23FFC94D'/%3E%3C/svg%3E">
+
+  <!-- Google Fonts: Fredoka (headings) + Nunito (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       1. DESIGN TOKENS (CSS custom properties)
+       ========================================================= */
+    :root {
+      /* Colors */
+      --ink: #1F2A4D;
+      --ink-soft: #3A4670;
+      --coral: #FF7A59;
+      --coral-dark: #F0603D;
+      --sun: #FFC94D;
+      --sun-soft: #FFF1C9;
+      --mint: #6FD3AE;
+      --mint-soft: #DFF6EC;
+      --lilac: #B9AEFF;
+      --lilac-soft: #ECE8FF;
+      --pink: #FFB8C6;
+      --pink-dark: #FF9BB0;
+      --pink-soft: #FFE6EC;
+      --sky-soft: #DDEBFF;
+      --bg: #FFF8F0;
+      --white: #ffffff;
+      --text: #2A3352;
+      --muted: #5A6380;
+      --border: #EADFD3;
+      --error: #C62828;
+      --error-soft: #FFF1F0;
+      --success: #1B7F57;
+
+      /* Typography */
+      --font-heading: "Fredoka", "Nunito", system-ui, sans-serif;
+      --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+      /* Spacing scale */
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2.5rem;
+      --space-xl: 4rem;
+      --section-pad: 4.5rem;
+
+      /* Misc */
+      --radius: 24px;
+      --radius-sm: 14px;
+      --radius-pill: 999px;
+      --outline: 2px solid var(--ink);
+      --pop: 0 5px 0 var(--ink);
+      --pop-hover: 0 8px 0 var(--ink);
+      --shadow: 0 14px 34px rgba(31, 42, 77, 0.1);
+      --transition: 0.25s ease;
+      --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --nav-height: 72px;
+      --container: 1180px;
+    }
+
+    /* =========================================================
+       2. RESET & BASE STYLES
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--nav-height);
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 76px; /* room for the mobile sticky CTA */
+    }
+
+    /* Clickjacking guard: hide the page when framed (see JS section 0) */
+    html.framed body { display: none !important; }
+
+    img, svg { display: block; }
+    a { color: inherit; text-decoration: none; }
+    ul, ol { list-style: none; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+
+    h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; color: var(--ink); font-weight: 600; }
+
+    .container {
+      width: 100%;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--space-sm);
+    }
+
+    .section { padding: var(--section-pad) 0; position: relative; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-pill);
+      background: var(--sun-soft);
+      color: var(--ink);
+      font-weight: 800;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: 2px solid var(--ink);
+      margin-bottom: var(--space-sm);
+    }
+
+    .section-head { text-align: center; max-width: 680px; margin: 0 auto var(--space-lg); }
+    .section-title { font-size: clamp(2rem, 5vw, 2.9rem); margin-bottom: var(--space-xs); }
+    .section-title .squiggle { position: relative; white-space: nowrap; }
+    .section-title .squiggle::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: -0.15em;
+      height: 0.35em;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M2 8 Q 15 2 30 8 T 60 8 T 90 8 T 118 8' fill='none' stroke='%23FF7A59' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+    }
+    .section-subtitle { color: var(--muted); font-size: 1.1rem; }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    /* Honeypot anti-spam field: off-screen for humans, still "fillable" for bots */
+    .hp { position: absolute !important; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+    :focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; border-radius: 6px; }
+
+    .icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+    /* =========================================================
+       3. BUTTONS
+       ========================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 52px;
+      padding: 0.8rem 1.6rem;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.05rem;
+      border: var(--outline);
+      box-shadow: var(--pop);
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+
+    .btn:hover { transform: translateY(-3px); box-shadow: var(--pop-hover); }
+    .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
+
+    .btn-primary { background: var(--coral); color: var(--ink); }
+    .btn-primary:hover { background: var(--coral-dark); }
+    .btn-sun { background: var(--sun); color: var(--ink); }
+    .btn-white { background: var(--white); color: var(--ink); }
+    .btn-small { min-height: 44px; padding: 0.5rem 1.1rem; font-size: 0.95rem; box-shadow: 0 3px 0 var(--ink); }
+    .btn-small:hover { box-shadow: 0 5px 0 var(--ink); }
+
+    .btn:disabled { opacity: 0.75; cursor: not-allowed; transform: none; }
+
+    .link-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      min-height: 44px;
+      padding: 0 0.5rem;
+    }
+    .link-btn:hover { color: var(--ink); }
+
+    /* =========================================================
+       4. ANNOUNCEMENT BAR, HEADER & NAVIGATION
+       ========================================================= */
+    .announce {
+      background: var(--ink);
+      color: var(--white);
+      text-align: center;
+      font-size: 0.92rem;
+      padding: 0.55rem var(--space-sm);
+    }
+    .announce a { color: var(--sun); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 248, 240, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .nav {
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo span { color: var(--coral-dark); }
+    .logo-mark { width: 42px; height: 36px; flex-shrink: 0; transition: transform 0.4s var(--bounce); }
+    .logo:hover .logo-mark { transform: rotate(-10deg) scale(1.08); }
+
+    .nav-actions { display: flex; align-items: center; gap: var(--space-xs); }
+    .nav-cta { display: none; }
+
+    /* Hamburger button (mobile) */
+    .nav-toggle {
+      width: 46px; height: 46px;
+      background: var(--white);
+      border: var(--outline);
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nav-toggle .bar {
+      width: 22px; height: 2.5px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+
+    .nav-toggle[aria-expanded="true"] .bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] .bar:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] .bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    /* Mobile dropdown menu */
+    .nav-menu {
+      position: absolute;
+      top: var(--nav-height);
+      left: 0; right: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      padding: 0 var(--space-sm);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+
+    .nav-menu.open {
+      max-height: 480px;
+      padding: var(--space-xs) var(--space-sm) var(--space-md);
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .nav-menu a {
+      display: block;
+      padding: 0.8rem 0;
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 1px dashed var(--border);
+      transition: color var(--transition);
+    }
+
+    .nav-menu a:hover { color: var(--coral-dark); }
+    .nav-menu .menu-cta { margin-top: var(--space-sm); border: var(--outline); }
+
+    /* =========================================================
+       5. HERO SECTION
+       ========================================================= */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: var(--space-xl) 0 var(--space-lg);
+      background:
+        radial-gradient(circle at 8% 18%, var(--pink-soft) 0 140px, transparent 141px),
+        radial-gradient(circle at 92% 12%, var(--mint-soft) 0 180px, transparent 181px),
+        radial-gradient(circle at 85% 95%, var(--lilac-soft) 0 160px, transparent 161px),
+        var(--bg);
+    }
+
+    .hero-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); align-items: center; }
+    .hero-copy { text-align: center; }
+
+    .hero h1 { font-size: clamp(2.5rem, 8vw, 4.3rem); margin-bottom: var(--space-md); font-weight: 700; }
+    .hero h1 em { font-style: normal; color: var(--coral-dark); display: inline-block; }
+
+    .hero-sub {
+      font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+      max-width: 560px;
+      margin: 0 auto var(--space-lg);
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      justify-content: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .trust-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1rem; font-weight: 700; color: var(--ink-soft); font-size: 0.95rem; }
+    .trust-chips li { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .trust-chips .icon { width: 18px; height: 18px; color: var(--success); stroke-width: 3; }
+
+    /* Hero illustration */
+    .hero-art { position: relative; max-width: 420px; width: 100%; margin: 0 auto; aspect-ratio: 1 / 0.92; }
+
+    .hero-blob {
+      position: absolute;
+      inset: 8% 6%;
+      background: var(--sun-soft);
+      border: var(--outline);
+      border-radius: 46% 54% 42% 58% / 52% 44% 56% 48%;
+      animation: blob 9s ease-in-out infinite;
+    }
+
+    .hero-piggy { position: absolute; left: 14%; right: 10%; bottom: 10%; width: 76%; height: auto; animation: wiggle 4s ease-in-out infinite; transform-origin: 50% 90%; }
+    .hero-coin { position: absolute; width: 16%; left: 44%; top: 4%; animation: drop 2.6s ease-in infinite; }
+
+    .float-chip {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--white);
+      border: var(--outline);
+      border-radius: var(--radius-pill);
+      padding: 0.35rem 0.8rem;
+      font-weight: 800;
+      font-size: 0.82rem;
+      color: var(--ink);
+      box-shadow: 0 3px 0 var(--ink);
+      white-space: nowrap;
+      animation: bob 5s ease-in-out infinite;
+    }
+    .float-chip .dot { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; }
+    .float-chip .dot .icon { width: 13px; height: 13px; stroke-width: 3.5; }
+    .chip-1 { top: 16%; left: -2%; }
+    .chip-1 .dot { background: var(--mint); }
+    .chip-2 { top: 44%; right: -4%; animation-delay: -1.6s; }
+    .chip-2 .dot { background: var(--sun); }
+    .chip-3 { bottom: 2%; left: 4%; animation-delay: -3.2s; }
+    .chip-3 .dot { background: var(--pink); }
+
+    @keyframes blob { 50% { border-radius: 56% 44% 52% 48% / 44% 56% 44% 56%; } }
+    @keyframes wiggle { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-3deg); } }
+    @keyframes bob { 50% { transform: translateY(-8px); } }
+    @keyframes drop {
+      0% { transform: translateY(-30%); opacity: 0; }
+      15% { opacity: 1; }
+      70% { transform: translateY(170%); opacity: 1; }
+      85%, 100% { transform: translateY(190%); opacity: 0; }
+    }
+
+    /* Trust stats */
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-sm);
+      max-width: 900px;
+      margin: var(--space-xl) auto 0;
+    }
+
+    .stat {
+      padding: var(--space-md);
+      border: var(--outline);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: var(--pop);
+      text-align: center;
+      transition: transform 0.35s var(--bounce);
+    }
+    .stat:nth-child(1) { background: var(--mint-soft); }
+    .stat:nth-child(2) { background: var(--pink-soft); }
+    .stat:nth-child(3) { background: var(--lilac-soft); }
+    .stat:hover { transform: translateY(-5px) rotate(-1deg); }
+
+    .stat-number {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: clamp(2.1rem, 5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+
+    .stat-label { font-weight: 700; color: var(--ink-soft); }
+
+    /* =========================================================
+       6. HOW IT WORKS
+       ========================================================= */
+    .how { background: var(--white); border-top: var(--outline); border-bottom: var(--outline); }
+
+    .steps { display: grid; grid-template-columns: 1fr; gap: var(--space-md); counter-reset: step; }
+
+    .step {
+      position: relative;
+      padding: var(--space-lg) var(--space-md) var(--space-md);
+      border: var(--outline);
+      border-radius: var(--radius);
+      background: var(--bg);
+      box-shadow: var(--pop);
+      transition: transform 0.35s var(--bounce);
+    }
+    .step:hover { transform: translateY(-6px); }
+
+    .step-icon {
+      width: 64px; height: 64px;
+      border-radius: 20px;
+      border: var(--outline);
+      display: grid;
+      place-items: center;
+      margin-bottom: var(--space-sm);
+      transform: rotate(-6deg);
+    }
+    .step-icon .icon { width: 30px; height: 30px; }
+    .step:nth-child(1) .step-icon { background: var(--pink); }
+    .step:nth-child(2) .step-icon { background: var(--sun); }
+    .step:nth-child(3) .step-icon { background: var(--mint); }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      top: -18px; right: 20px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+    }
+
+    .step h3 { font-size: 1.4rem; margin-bottom: 0.35rem; }
+    .step p { color: var(--muted); }
+
+    .center-cta { text-align: center; margin-top: var(--space-lg); }
+
+    /* =========================================================
+       7. MONEY PERSONALITY QUIZ (lead magnet)
+       ========================================================= */
+    .quiz-card, .calc-card, .guide-card {
+      background: var(--white);
+      border: var(--outline);
+      border-radius: var(--radius);
+      box-shadow: var(--pop);
+      padding: var(--space-lg) var(--space-md);
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .quiz-progress { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); font-weight: 800; color: var(--muted); font-size: 0.9rem; }
+    .progress-track { flex: 1; height: 14px; border: var(--outline); border-radius: var(--radius-pill); background: var(--bg); overflow: hidden; }
+    .progress-fill { height: 100%; width: 100%; background: var(--mint); transform-origin: left; transform: scaleX(0); transition: transform 0.4s var(--bounce); }
+
+    .quiz-question { font-size: clamp(1.4rem, 3.5vw, 1.8rem); margin-bottom: var(--space-md); }
+    .quiz-question:focus { outline: none; }
+
+    .quiz-options { display: grid; gap: 0.75rem; }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      width: 100%;
+      min-height: 56px;
+      text-align: left;
+      padding: 0.8rem 1rem;
+      border: var(--outline);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      font-weight: 700;
+      box-shadow: 0 3px 0 var(--ink);
+      transition: transform 0.2s var(--bounce), background var(--transition), box-shadow var(--transition);
+    }
+    .quiz-option:hover { background: var(--sun-soft); transform: translateX(4px); }
+    .quiz-option:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+    .quiz-option .letter {
+      width: 32px; height: 32px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: var(--outline);
+      background: var(--white);
+      display: grid;
+      place-items: center;
+      font-family: var(--font-heading);
+    }
+
+    .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-md); min-height: 44px; }
+
+    .quiz-result { text-align: center; }
+    .quiz-result:focus { outline: none; }
+    .result-badge {
+      width: 120px; height: 104px;
+      margin: 0 auto var(--space-sm);
+    }
+    .result-kicker { font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.85rem; }
+    .result-name { font-size: clamp(1.8rem, 5vw, 2.4rem); color: var(--coral-dark); margin: 0.2rem 0 var(--space-sm); }
+    .result-blurb { color: var(--text); max-width: 540px; margin: 0 auto var(--space-md); }
+
+    .gate-box {
+      background: var(--sun-soft);
+      border: 2px dashed var(--ink);
+      border-radius: var(--radius-sm);
+      padding: var(--space-md);
+      text-align: left;
+      margin-top: var(--space-md);
+    }
+    .gate-box h3 { font-size: 1.25rem; margin-bottom: 0.35rem; }
+    .gate-box > p { color: var(--muted); margin-bottom: var(--space-sm); font-size: 0.98rem; }
+
+    .tips-list { display: grid; gap: 0.75rem; text-align: left; margin: var(--space-md) 0; counter-reset: tip; }
+    .tips-list li {
+      position: relative;
+      padding: 0.8rem 1rem 0.8rem 3.2rem;
+      background: var(--mint-soft);
+      border: var(--outline);
+      border-radius: var(--radius-sm);
+    }
+    .tips-list li::before {
+      counter-increment: tip;
+      content: counter(tip);
+      position: absolute;
+      left: 0.8rem; top: 0.75rem;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--white);
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      font-size: 0.85rem;
+    }
+
+    .result-actions { display: flex; flex-direction: column; gap: var(--space-xs); align-items: center; }
+
+    /* Shared email-gate form */
+    .gate-form { display: flex; flex-direction: column; gap: var(--space-xs); }
+    .gate-msg { font-size: 0.9rem; font-weight: 700; min-height: 1.2em; }
+    .gate-msg.error { color: var(--error); }
+    .gate-msg.success { color: var(--success); }
+    .fine-print { font-size: 0.82rem; color: var(--muted); }
+
+    /* =========================================================
+       8. RETIREMENT CALCULATOR (lead magnet)
+       ========================================================= */
+    .calculator { background: var(--mint-soft); border-top: var(--outline); border-bottom: var(--outline); }
+
+    .calc-card { max-width: 1000px; display: grid; grid-template-columns: 1fr; gap: var(--space-lg); }
+
+    .calc-inputs { display: grid; gap: var(--space-md); }
+
+    .range-field label { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-xs); font-weight: 800; color: var(--ink); margin-bottom: 0.4rem; }
+    .range-field output {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      background: var(--sun-soft);
+      border: var(--outline);
+      border-radius: var(--radius-pill);
+      padding: 0 0.7rem;
+      white-space: nowrap;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 44px;
+      background: transparent;
+      appearance: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-runnable-track { height: 12px; border-radius: var(--radius-pill); background: var(--bg); border: var(--outline); }
+    input[type="range"]::-moz-range-track { height: 8px; border-radius: var(--radius-pill); background: var(--bg); border: var(--outline); }
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 28px; height: 28px;
+      margin-top: -10px;
+      border-radius: 50%;
+      background: var(--coral);
+      border: var(--outline);
+      box-shadow: 0 3px 0 var(--ink);
+    }
+    input[type="range"]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--coral); border: var(--outline); }
+
+    .segmented { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+    .segmented legend { font-weight: 800; color: var(--ink); margin-bottom: 0.4rem; grid-column: 1 / -1; }
+    fieldset.segmented { border: none; }
+    .segmented label { position: relative; }
+    .segmented input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+    .segmented span {
+      display: block;
+      text-align: center;
+      padding: 0.6rem 0.3rem;
+      min-height: 44px;
+      border: var(--outline);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      font-weight: 800;
+      font-size: 0.9rem;
+      line-height: 1.25;
+      transition: background var(--transition), transform 0.2s var(--bounce);
+    }
+    .segmented small { display: block; font-weight: 600; color: var(--muted); }
+    .segmented input:checked + span { background: var(--sun); box-shadow: 0 3px 0 var(--ink); transform: translateY(-2px); }
+    .segmented input:focus-visible + span { outline: 3px solid var(--coral); outline-offset: 2px; }
+
+    .calc-result {
+      background: var(--ink);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: var(--space-lg) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .calc-result h3 { color: var(--sun); font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .calc-pot { font-family: var(--font-heading); font-size: clamp(2.4rem, 7vw, 3.4rem); font-weight: 700; line-height: 1.1; }
+    .calc-income { color: rgba(255, 255, 255, 0.85); margin: 0.4rem 0 var(--space-md); }
+    .calc-income strong { color: var(--white); }
+
+    .calc-bar { display: flex; height: 22px; border-radius: var(--radius-pill); overflow: hidden; border: 2px solid var(--white); margin-bottom: 0.6rem; background: var(--ink-soft); }
+    .calc-bar .contrib { background: var(--pink); transition: width 0.4s ease; }
+    .calc-bar .growth { background: var(--mint); transition: width 0.4s ease; }
+    .calc-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; font-size: 0.9rem; margin-bottom: var(--space-md); }
+    .calc-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .calc-legend i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .calc-legend .k-contrib { background: var(--pink); }
+    .calc-legend .k-growth { background: var(--mint); }
+    .calc-note { font-size: 0.8rem; color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm); }
+
+    /* =========================================================
+       9. TESTIMONIAL CAROUSEL
+       ========================================================= */
+    .carousel { position: relative; }
+    .carousel-viewport { overflow: hidden; padding: 6px 0 10px; }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+      will-change: transform;
+    }
+
+    .carousel-slide { flex: 0 0 100%; padding: var(--space-sm) var(--space-xs) var(--space-md); }
+
+    .testimonial-card {
+      height: 100%;
+      background: var(--white);
+      border: var(--outline);
+      border-radius: var(--radius);
+      padding: var(--space-lg) var(--space-md) var(--space-md);
+      box-shadow: var(--pop);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.35s var(--bounce);
+    }
+    .carousel-slide:nth-child(3n + 1) .testimonial-card { background: var(--pink-soft); }
+    .carousel-slide:nth-child(3n + 2) .testimonial-card { background: var(--sky-soft); }
+    .carousel-slide:nth-child(3n + 3) .testimonial-card { background: var(--sun-soft); }
+    .testimonial-card:hover { transform: translateY(-6px) rotate(-0.6deg); }
+
+    .stars { display: flex; gap: 3px; margin-bottom: var(--space-sm); color: var(--coral); }
+    .stars svg { width: 20px; height: 20px; fill: currentColor; }
+
+    .testimonial-quote { flex: 1; font-size: 1.02rem; margin-bottom: var(--space-md); }
+
+    .testimonial-author { display: flex; align-items: center; gap: var(--space-sm); }
+
+    .avatar {
+      width: 52px; height: 52px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: var(--outline);
+      display: grid;
+      place-items: center;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--ink);
+    }
+    .av-1 { background: var(--sun); }
+    .av-2 { background: var(--mint); }
+    .av-3 { background: var(--lilac); }
+    .av-4 { background: var(--pink); }
+
+    .author-name { font-weight: 800; color: var(--ink); }
+    .author-role { font-size: 0.9rem; color: var(--muted); }
+
+    /* Controls */
+    .carousel-controls { display: flex; justify-content: center; align-items: center; gap: var(--space-sm); margin-top: var(--space-sm); }
+
+    .carousel-btn {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      border: var(--outline);
+      background: var(--white);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 3px 0 var(--ink);
+      transition: background var(--transition), transform 0.2s var(--bounce);
+    }
+    .carousel-btn:hover { background: var(--sun); transform: translateY(-2px); }
+    .carousel-btn .icon { width: 20px; height: 20px; stroke-width: 2.8; }
+
+    .carousel-dots { display: flex; justify-content: center; gap: 0.5rem; }
+
+    .carousel-dot {
+      width: 14px; height: 14px;
+      border-radius: var(--radius-pill);
+      border: 2px solid var(--ink);
+      background: var(--white);
+      transition: background var(--transition), width var(--transition);
+    }
+    .carousel-dot:hover { background: var(--pink); }
+    .carousel-dot[aria-selected="true"] { background: var(--coral); width: 34px; }
+
+    /* =========================================================
+       10. FREE CHECKLIST (lead magnet)
+       ========================================================= */
+    .guide { background: var(--lilac-soft); border-top: var(--outline); border-bottom: var(--outline); }
+
+    .guide-card { max-width: 1000px; display: grid; grid-template-columns: 1fr; gap: var(--space-lg); align-items: center; }
+
+    .guide-mock {
+      position: relative;
+      max-width: 320px;
+      margin: 0 auto;
+      background: var(--white);
+      border: var(--outline);
+      border-radius: 18px;
+      padding: var(--space-md);
+      box-shadow: 10px 10px 0 var(--ink);
+      transform: rotate(-3deg);
+      transition: transform 0.4s var(--bounce);
+    }
+    .guide-mock:hover { transform: rotate(0) scale(1.02); }
+    .guide-mock h3 { font-size: 1.25rem; margin-bottom: var(--space-sm); }
+    .guide-mock h3 small { display: block; font-family: var(--font-body); font-size: 0.8rem; color: var(--coral-dark); font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; }
+    .mock-item { display: flex; gap: 0.5rem; align-items: center; padding: 0.4rem 0; border-bottom: 1px dashed var(--border); font-weight: 700; font-size: 0.92rem; }
+    .mock-box { width: 18px; height: 18px; border: 2px solid var(--ink); border-radius: 5px; flex-shrink: 0; display: grid; place-items: center; background: var(--mint); }
+    .mock-box .icon { width: 12px; height: 12px; stroke-width: 4; }
+    .mock-item.blur { filter: blur(3.5px); user-select: none; }
+    .mock-sticker {
+      position: absolute;
+      top: -18px; right: -18px;
+      width: 74px; height: 74px;
+      border-radius: 50%;
+      background: var(--sun);
+      border: var(--outline);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.95rem;
+      line-height: 1;
+      transform: rotate(12deg);
+    }
+
+    .guide-copy h3 { font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: var(--space-xs); }
+    .guide-copy > p { color: var(--muted); margin-bottom: var(--space-sm); }
+
+    .check-list { display: grid; gap: 0.45rem; margin-bottom: var(--space-md); }
+    .check-list li { display: flex; gap: 0.55rem; align-items: flex-start; font-weight: 600; }
+    .check-list .icon { width: 20px; height: 20px; color: var(--success); stroke-width: 3; margin-top: 3px; }
+
+    .checklist-unlocked { grid-column: 1 / -1; }
+    .checklist-unlocked h3 { font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: var(--space-xs); }
+    .checklist-unlocked h3:focus { outline: none; }
+    .checklist-full { display: grid; gap: 0.6rem; margin: var(--space-md) 0; }
+    .checklist-full label {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      padding: 0.75rem 1rem;
+      background: var(--bg);
+      border: var(--outline);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .checklist-full input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--success); flex-shrink: 0; cursor: pointer; }
+    .checklist-full label:has(input:checked) { background: var(--mint-soft); }
+    .checklist-full strong { display: block; color: var(--ink); }
+    .checklist-full span span { color: var(--muted); font-size: 0.95rem; }
+    .checklist-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+
+    /* =========================================================
+       11. FAQ
+       ========================================================= */
+    .faq-list { max-width: 780px; margin: 0 auto; display: grid; gap: var(--space-sm); }
+
+    .faq-item {
+      background: var(--white);
+      border: var(--outline);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 3px 0 var(--ink);
+      overflow: hidden;
+    }
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: 1rem 1.2rem;
+      min-height: 56px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.12rem;
+      color: var(--ink);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: "+";
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: var(--outline);
+      background: var(--sun);
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+      line-height: 1;
+      transition: transform 0.3s var(--bounce);
+    }
+    .faq-item[open] summary::after { transform: rotate(45deg); background: var(--pink); }
+    .faq-item p { padding: 0 1.2rem 1.1rem; color: var(--muted); }
+
+    /* =========================================================
+       12. ENQUIRY / CONTACT SECTION
+       ========================================================= */
+    .contact { background: var(--white); border-top: var(--outline); }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); }
+
+    .contact-info {
+      background: var(--ink);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: var(--space-lg) var(--space-md);
+      box-shadow: 8px 8px 0 var(--coral);
+    }
+    .contact-info h3 { color: var(--white); font-size: 1.6rem; margin-bottom: var(--space-xs); }
+    .contact-info > p { color: rgba(255, 255, 255, 0.82); margin-bottom: var(--space-md); }
+
+    .next-steps { display: grid; gap: 0.75rem; margin-bottom: var(--space-lg); counter-reset: next; }
+    .next-steps li { display: flex; gap: 0.75rem; align-items: flex-start; color: rgba(255, 255, 255, 0.92); }
+    .next-steps li::before {
+      counter-increment: next;
+      content: counter(next);
+      width: 28px; height: 28px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--sun);
+      color: var(--ink);
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      font-size: 0.85rem;
+    }
+
+    .info-list { display: grid; gap: var(--space-sm); padding-top: var(--space-md); border-top: 1px dashed rgba(255, 255, 255, 0.25); }
+    .info-item { display: flex; gap: var(--space-sm); align-items: flex-start; }
+
+    .info-icon {
+      flex-shrink: 0;
+      width: 42px; height: 42px;
+      border-radius: 14px;
+      background: rgba(255, 201, 77, 0.18);
+      color: var(--sun);
+      display: grid;
+      place-items: center;
+    }
+    .info-icon .icon { width: 20px; height: 20px; }
+    .info-item h4 { font-family: var(--font-body); font-size: 0.85rem; color: var(--sun); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
+    .info-item p, .info-item a { color: rgba(255, 255, 255, 0.92); font-size: 0.98rem; }
+    .info-item a:hover { color: var(--sun); }
+
+    /* Form card */
+    .form-card {
+      background: var(--bg);
+      border: var(--outline);
+      border-radius: var(--radius);
+      padding: var(--space-lg) var(--space-md);
+      box-shadow: var(--pop);
+    }
+
+    .form-card > h3 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+    .form-card > p { color: var(--muted); margin-bottom: var(--space-md); }
+
+    .form-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-group label,
+    .form-group legend { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--ink); }
+    .optional { font-weight: 600; color: var(--muted); }
+    .required { color: var(--error); }
+
+    .form-control {
+      width: 100%;
+      min-height: 50px;
+      padding: 0.75rem 1rem;
+      border: var(--outline);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      transition: box-shadow var(--transition), background var(--transition);
+    }
+    .form-control::placeholder { color: #8A90A6; }
+    .form-control:focus { outline: none; box-shadow: 0 0 0 4px rgba(255, 122, 89, 0.35); }
+
+    textarea.form-control { resize: vertical; min-height: 110px; }
+
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%231F2A4D' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    fieldset.form-group { border: none; }
+
+    .radio-group { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+    .radio-option { position: relative; }
+    .radio-option input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+    .radio-option span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0.45rem 1rem;
+      border: var(--outline);
+      border-radius: var(--radius-pill);
+      background: var(--white);
+      font-weight: 700;
+      transition: background var(--transition);
+    }
+    .radio-option input:checked + span { background: var(--mint); box-shadow: 0 3px 0 var(--ink); }
+    .radio-option input:focus-visible + span { outline: 3px solid var(--coral); outline-offset: 2px; }
+
+    .checkbox-option { display: flex; align-items: flex-start; gap: 0.6rem; cursor: pointer; font-size: 0.95rem; }
+    .checkbox-option input { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--ink); flex-shrink: 0; cursor: pointer; }
+
+    /* Validation states */
+    .form-control.invalid { border-color: var(--error); background: var(--error-soft); }
+    .form-control.invalid:focus { box-shadow: 0 0 0 4px rgba(198, 40, 40, 0.2); }
+    .radio-group.invalid, .checkbox-option.invalid { outline: 2px solid var(--error); outline-offset: 6px; border-radius: 8px; }
+
+    .error-msg { color: var(--error); font-size: 0.88rem; font-weight: 700; margin-top: 0.35rem; }
+    .error-msg:empty { display: none; }
+
+    .form-submit { width: 100%; margin-top: var(--space-xs); }
+
+    /* Loading spinner */
+    .spinner {
+      display: none;
+      width: 20px; height: 20px;
+      border: 3px solid rgba(31, 42, 77, 0.25);
+      border-top-color: var(--ink);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .btn.loading .spinner { display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Success message */
+    .form-success { text-align: center; padding: var(--space-lg) var(--space-sm); animation: popIn 0.5s var(--bounce) both; }
+    .form-success:focus { outline: none; }
+    .form-success .result-badge { margin-bottom: var(--space-md); }
+    .form-success h3 { font-size: 1.8rem; margin-bottom: var(--space-xs); }
+    .form-success p { color: var(--muted); max-width: 440px; margin: 0 auto; }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* =========================================================
+       13. FOOTER
+       ========================================================= */
+    .site-footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, 0.8);
+      padding-top: var(--section-pad);
+      font-size: 0.98rem;
+    }
+
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); padding-bottom: var(--space-lg); }
+
+    .footer-col h3 {
+      color: var(--sun);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-sm);
+    }
+
+    .footer-col .logo { color: var(--white); margin-bottom: var(--space-sm); }
+    .footer-col .logo span { color: var(--sun); }
+    .footer-col p { margin-bottom: var(--space-sm); }
+
+    .footer-links li { margin-bottom: 0.55rem; }
+    .footer-links a { transition: color var(--transition), padding-left var(--transition); }
+    .footer-links a:hover { color: var(--sun); padding-left: 4px; }
+
+    .newsletter-form .form-control { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.35); color: var(--white); }
+    .newsletter-form .form-control::placeholder { color: rgba(255, 255, 255, 0.55); }
+    .newsletter-form .form-control.invalid { border-color: #FF9A92; background: rgba(255, 154, 146, 0.12); }
+    .newsletter-form .gate-msg.error { color: #FFB1AA; }
+    .newsletter-form .gate-msg.success { color: #8FE3C1; }
+
+    .social-links { display: flex; gap: 0.75rem; margin-top: var(--space-sm); }
+    .social-links a {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      transition: background var(--transition), color var(--transition), transform 0.25s var(--bounce);
+    }
+    .social-links a:hover { background: var(--sun); color: var(--ink); transform: translateY(-3px) rotate(-8deg); }
+    .social-links svg { width: 18px; height: 18px; fill: currentColor; }
+
+    .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.12); padding: var(--space-md) 0; text-align: center; font-size: 0.88rem; }
+    .footer-bottom p + p { margin-top: 0.4rem; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; }
+
+    /* =========================================================
+       14. STICKY MOBILE CTA, BACK-TO-TOP & EXIT DIALOG
+       ========================================================= */
+    .sticky-cta {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 95;
+      display: flex;
+      gap: var(--space-xs);
+      padding: 0.6rem var(--space-sm) calc(0.6rem + env(safe-area-inset-bottom));
+      background: var(--bg);
+      border-top: var(--outline);
+      transform: translateY(110%);
+      transition: transform 0.35s var(--bounce);
+    }
+    .sticky-cta.show { transform: translateY(0); }
+    .sticky-cta .btn { flex: 1; min-height: 48px; padding: 0.5rem 0.75rem; font-size: 0.98rem; box-shadow: 0 3px 0 var(--ink); }
+
+    .back-to-top {
+      position: fixed;
+      right: 16px;
+      bottom: 92px;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: var(--outline);
+      background: var(--sun);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 3px 0 var(--ink);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: opacity var(--transition), visibility var(--transition), transform var(--transition);
+      z-index: 90;
+    }
+    .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .back-to-top:hover { background: var(--white); }
+    .back-to-top .icon { stroke-width: 2.8; }
+
+    .exit-dialog {
+      margin: auto;
+      width: min(440px, calc(100% - 2rem));
+      border: var(--outline);
+      border-radius: var(--radius);
+      box-shadow: 10px 10px 0 var(--ink);
+      padding: var(--space-lg) var(--space-md) var(--space-md);
+      background: var(--white);
+      color: var(--text);
+      text-align: center;
+    }
+    .exit-dialog[open] { animation: popIn 0.4s var(--bounce) both; }
+    .exit-dialog::backdrop { background: rgba(31, 42, 77, 0.55); }
+    .exit-dialog .result-badge { width: 96px; height: 84px; }
+    .exit-dialog h2 { font-size: 1.7rem; margin-bottom: var(--space-xs); }
+    .exit-dialog p { color: var(--muted); margin-bottom: var(--space-md); }
+    .exit-dialog .result-actions .btn { width: 100%; }
+    .dialog-close {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: var(--outline);
+      background: var(--bg);
+      display: grid;
+      place-items: center;
+    }
+
+    /* =========================================================
+       15. SCROLL ANIMATIONS
+       ========================================================= */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s var(--bounce); }
+    .fade-in.is-visible { opacity: 1; transform: translateY(0); }
+
+    .delay-1 { transition-delay: 0.12s; }
+    .delay-2 { transition-delay: 0.24s; }
+    .delay-3 { transition-delay: 0.36s; }
+
+    /* =========================================================
+       16. RESPONSIVE: TABLET (>= 768px)
+       ========================================================= */
+    @media (min-width: 768px) {
+      :root { --section-pad: 6rem; }
+
+      .container { padding: 0 var(--space-md); }
+
+      .nav-cta { display: inline-flex; }
+
+      .hero-actions { flex-direction: row; }
+
+      .stats { grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+      .steps { grid-template-columns: repeat(3, 1fr); }
+
+      .quiz-card, .calc-card, .guide-card, .form-card, .contact-info { padding: var(--space-lg); }
+      .quiz-options { grid-template-columns: 1fr 1fr; }
+      .gate-form { flex-direction: row; flex-wrap: wrap; }
+      .gate-form .form-control { flex: 1; min-width: 0; }
+      .gate-msg { flex-basis: 100%; }
+      .result-actions { flex-direction: row; justify-content: center; }
+
+      .form-grid { grid-template-columns: 1fr 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* =========================================================
+       17. RESPONSIVE: DESKTOP (>= 1024px)
+       ========================================================= */
+    @media (min-width: 1024px) {
+      body { padding-bottom: 0; }
+
+      /* Show inline nav links, hide hamburger */
+      .nav-toggle { display: none; }
+      .nav-menu {
+        position: static;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-md);
+        max-height: none;
+        overflow: visible;
+        padding: 0;
+        background: none;
+      }
+      .nav-menu.open { padding: 0; border: none; }
+      .nav-menu a { border: none; padding: 0.4rem 0; position: relative; white-space: nowrap; }
+      .btn { white-space: nowrap; }
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        left: 0; bottom: 0;
+        width: 0; height: 3px;
+        border-radius: 3px;
+        background: var(--coral);
+        transition: width var(--transition);
+      }
+      .nav-menu a:hover::after { width: 100%; }
+      .nav-menu .menu-cta-item { display: none; }
+
+      .hero { padding: var(--space-xl) 0; }
+      .hero-grid { grid-template-columns: 1.1fr 0.9fr; }
+      .hero-copy { text-align: left; }
+      .hero-sub { margin-left: 0; }
+      .hero-actions { justify-content: flex-start; flex-wrap: wrap; }
+      .trust-chips { justify-content: flex-start; }
+
+      .carousel-slide { flex-basis: calc(100% / 3); padding: var(--space-sm) var(--space-sm) var(--space-md); }
+
+      .calc-card { grid-template-columns: 1.1fr 0.9fr; }
+      .guide-card { grid-template-columns: 0.8fr 1.2fr; }
+
+      .contact-grid { grid-template-columns: 5fr 7fr; align-items: start; }
+
+      .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1.4fr; }
+      .newsletter-form { flex-direction: column; }
+
+      .sticky-cta { display: none; }
+      .back-to-top { bottom: 24px; right: 24px; }
+    }
+
+    /* =========================================================
+       18. PRINT (the unlocked checklist only)
+       ========================================================= */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .announce, .site-header, .site-footer, .sticky-cta, .back-to-top, .exit-dialog,
+      main > section:not(#guide), #guide .section-head, .guide-mock, .guide-copy, .checklist-actions { display: none !important; }
+      #guide, .guide-card { background: #fff; border: none; box-shadow: none; padding: 0; }
+      .fade-in { opacity: 1; transform: none; }
+    }
+
+    /* =========================================================
+       19. REDUCED MOTION
+       ========================================================= */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .fade-in { opacity: 1; transform: none; }
+      .hero-coin { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG sprite: icons and the "Penny" piggy mascot, referenced with <use href="#..."> -->
+  <svg width="0" height="0" class="visually-hidden" aria-hidden="true" focusable="false">
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 3 3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+    <symbol id="piggy" viewBox="0 0 200 172">
+      <path d="M34 96c-14-2-20-12-14-20 5-6 12-2 10 4" fill="none" stroke="#1F2A4D" stroke-width="4" stroke-linecap="round"/>
+      <rect x="58" y="128" width="22" height="34" rx="10" fill="#FF9BB0" stroke="#1F2A4D" stroke-width="4"/>
+      <rect x="118" y="128" width="22" height="34" rx="10" fill="#FF9BB0" stroke="#1F2A4D" stroke-width="4"/>
+      <path d="M58 58 66 26 92 48z" fill="#FF9BB0" stroke="#1F2A4D" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M114 46 138 24 144 58z" fill="#FF9BB0" stroke="#1F2A4D" stroke-width="4" stroke-linejoin="round"/>
+      <ellipse cx="100" cy="98" rx="72" ry="56" fill="#FFB8C6" stroke="#1F2A4D" stroke-width="4"/>
+      <rect x="84" y="46" width="34" height="8" rx="4" fill="#1F2A4D"/>
+      <ellipse cx="168" cy="100" rx="20" ry="17" fill="#FF9BB0" stroke="#1F2A4D" stroke-width="4"/>
+      <ellipse cx="162" cy="100" rx="3.5" ry="5" fill="#1F2A4D"/>
+      <ellipse cx="175" cy="100" rx="3.5" ry="5" fill="#1F2A4D"/>
+      <circle cx="134" cy="80" r="7" fill="#1F2A4D"/>
+      <circle cx="136.5" cy="77.5" r="2.4" fill="#fff"/>
+      <ellipse cx="136" cy="106" rx="11" ry="6" fill="#FF7A9A" opacity="0.55"/>
+      <path d="M140 122q10 8 20 1" fill="none" stroke="#1F2A4D" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="coin" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="17" fill="#FFC94D" stroke="#1F2A4D" stroke-width="3"/>
+      <circle cx="20" cy="20" r="11" fill="none" stroke="#E0A82E" stroke-width="2.5"/>
+      <path d="M20 13v14M24 16.5c-1-1.4-2.4-2-4-2-2.2 0-3.6 1.1-3.6 2.7 0 3.8 7.6 1.9 7.6 5.7 0 1.6-1.6 2.7-4 2.7-1.8 0-3.3-.7-4.2-2" fill="none" stroke="#1F2A4D" stroke-width="2.2" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <!-- Announcement bar (scrolls away; only the header below is sticky) -->
+  <p class="announce">New! The free 2026 Money Glow-Up Checklist is here. <a href="#guide" data-source="announce-bar">Grab yours</a></p>
+
+  <!-- =========================================================
+       HEADER / STICKY NAVIGATION
+       ========================================================= -->
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a href="#home" class="logo" aria-label="Horizon Wealth Planning home">
+        <svg class="logo-mark" viewBox="0 0 200 172" aria-hidden="true"><use href="#piggy"/></svg>
+        Horizon<span>Wealth</span>
+      </a>
+
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#quiz">Money quiz</a></li>
+        <li><a href="#calculator">Calculator</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#guide">Free checklist</a></li>
+        <li class="menu-cta-item"><a href="#contact" class="btn btn-primary menu-cta">Book a free chat</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-primary btn-small nav-cta">Book a free chat</a>
+        <button class="nav-toggle" type="button" aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- =========================================================
+         1. HERO SECTION
+         ========================================================= -->
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow fade-in">Friendly financial planners in Singapore</span>
+            <h1 id="hero-title" class="fade-in delay-1">Money stuff, <em>minus the stress.</em></h1>
+            <p class="hero-sub fade-in delay-2">
+              We help you retire comfortably, grow your savings and protect the people you love. Plain English, zero judgement, coffee optional.
+            </p>
+
+            <div class="hero-actions fade-in delay-3">
+              <a href="#contact" class="btn btn-primary" data-source="hero">Book my free 30-min chat</a>
+              <a href="#quiz" class="btn btn-white">Take the 60-sec money quiz</a>
+            </div>
+
+            <ul class="trust-chips fade-in delay-3" aria-label="Why people choose us">
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>No jargon</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>No hard sell</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>First chat is free</li>
+            </ul>
+          </div>
+
+          <div class="hero-art fade-in delay-2" aria-hidden="true">
+            <div class="hero-blob"></div>
+            <svg class="hero-coin" viewBox="0 0 40 40"><use href="#coin"/></svg>
+            <svg class="hero-piggy" viewBox="0 0 200 172"><use href="#piggy"/></svg>
+            <span class="float-chip chip-1"><span class="dot"><svg class="icon"><use href="#i-check"/></svg></span>Retirement: on track</span>
+            <span class="float-chip chip-2"><span class="dot"><svg class="icon"><use href="#i-check"/></svg></span>Rainy-day fund: sorted</span>
+            <span class="float-chip chip-3"><span class="dot"><svg class="icon"><use href="#i-check"/></svg></span>Family: protected</span>
+          </div>
+        </div>
+
+        <!-- Trust stats (numbers animate when in view) -->
+        <ul class="stats" aria-label="Firm highlights">
+          <li class="stat fade-in">
+            <span class="stat-number" data-target="15" data-suffix="+">0</span>
+            <span class="stat-label">Years helping families</span>
+          </li>
+          <li class="stat fade-in delay-1">
+            <span class="stat-number" data-target="1200" data-suffix="+">0</span>
+            <span class="stat-label">Happy clients</span>
+          </li>
+          <li class="stat fade-in delay-2">
+            <span class="stat-number" data-target="500" data-prefix="$" data-suffix="M">0</span>
+            <span class="stat-label">Assets advised</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         2. HOW IT WORKS
+         ========================================================= -->
+    <section class="section how" id="how" aria-labelledby="how-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow fade-in">How it works</span>
+          <h2 class="section-title fade-in" id="how-title">Three easy steps to <span class="squiggle">money calm</span></h2>
+          <p class="section-subtitle fade-in">No 40-page reports, no pressure. Just a friendly human with a plan.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step fade-in">
+            <div class="step-icon" aria-hidden="true"><svg class="icon"><use href="#i-chat"/></svg></div>
+            <h3>Have a cosy chat</h3>
+            <p>A free 30-minute call or coffee where we get to know you, your goals and your what-ifs.</p>
+          </li>
+          <li class="step fade-in delay-1">
+            <div class="step-icon" aria-hidden="true"><svg class="icon"><use href="#i-map"/></svg></div>
+            <h3>Get your game plan</h3>
+            <p>A simple, personalised plan covering retirement, investing, insurance and tax, on one page.</p>
+          </li>
+          <li class="step fade-in delay-2">
+            <div class="step-icon" aria-hidden="true"><svg class="icon"><use href="#i-heart"/></svg></div>
+            <h3>Glow up together</h3>
+            <p>Friendly check-ins as life changes: new job, new baby, new home. We adjust, you relax.</p>
+          </li>
+        </ol>
+
+        <div class="center-cta fade-in">
+          <a href="#contact" class="btn btn-primary" data-source="how-it-works">Start with step one, it's free</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3. MONEY PERSONALITY QUIZ (lead magnet)
+         ========================================================= -->
+    <section class="section quiz" id="quiz" aria-labelledby="quiz-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow fade-in">60-second quiz</span>
+          <h2 class="section-title fade-in" id="quiz-title">What's your <span class="squiggle">money personality?</span></h2>
+          <p class="section-subtitle fade-in">Four quick questions. Find out if you're a Squirrel, an Otter, an Owl or a Bee, and get tips made for you.</p>
+        </div>
+
+        <div class="quiz-card fade-in" id="quiz-app">
+          <!-- Question view: filled in by JS -->
+          <div id="quiz-question-view">
+            <div class="quiz-progress">
+              <span id="quiz-step">Question 1 of 4</span>
+              <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="quiz-fill"></div></div>
+            </div>
+            <h3 class="quiz-question" id="quiz-question" tabindex="-1">Loading quiz…</h3>
+            <div class="quiz-options" id="quiz-options" role="group" aria-labelledby="quiz-question"></div>
+            <div class="quiz-nav">
+              <button type="button" class="link-btn" id="quiz-back" hidden>Back</button>
+            </div>
+          </div>
+
+          <!-- Result view -->
+          <div class="quiz-result" id="quiz-result" tabindex="-1" hidden>
+            <svg class="result-badge" viewBox="0 0 200 172" aria-hidden="true"><use href="#piggy"/></svg>
+            <p class="result-kicker">You are…</p>
+            <h3 class="result-name" id="result-name"></h3>
+            <p class="result-blurb" id="result-blurb"></p>
+
+            <div class="gate-box" id="quiz-gate">
+              <h3>Unlock your 3 personalised money tips</h3>
+              <p>We'll show them right here and send a copy to your inbox. No spam, unsubscribe anytime.</p>
+              <form class="gate-form" id="quiz-form" method="post" novalidate aria-label="Get your quiz tips">
+                <div class="hp" aria-hidden="true">
+                  <label for="quiz-website">Leave this field empty</label>
+                  <input type="text" id="quiz-website" name="website" tabindex="-1" autocomplete="off">
+                </div>
+                <label for="quiz-email" class="visually-hidden">Email address</label>
+                <input class="form-control" type="email" id="quiz-email" name="email" maxlength="254" autocomplete="email" placeholder="you@example.com" required aria-describedby="quiz-msg">
+                <button type="submit" class="btn btn-primary">Show my tips</button>
+                <p class="gate-msg" id="quiz-msg" aria-live="polite"></p>
+              </form>
+            </div>
+
+            <div id="quiz-tips" hidden>
+              <ol class="tips-list" id="tips-list"></ol>
+            </div>
+
+            <div class="result-actions">
+              <a href="#contact" class="btn btn-sun" id="quiz-book">Chat about my plan, free</a>
+              <button type="button" class="link-btn" id="quiz-restart">Retake the quiz</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. RETIREMENT CALCULATOR (lead magnet)
+         ========================================================= -->
+    <section class="section calculator" id="calculator" aria-labelledby="calc-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow fade-in">Free calculator</span>
+          <h2 class="section-title fade-in" id="calc-title">Will my piggy bank be <span class="squiggle">big enough?</span></h2>
+          <p class="section-subtitle fade-in">Slide the numbers and watch your future nest egg grow. Takes about 30 seconds.</p>
+        </div>
+
+        <div class="calc-card fade-in">
+          <form class="calc-inputs" id="calc-form" aria-label="Retirement calculator" novalidate>
+            <div class="range-field">
+              <label for="calc-age">Your age now <output for="calc-age" id="calc-age-out">30</output></label>
+              <input type="range" id="calc-age" name="age" min="18" max="70" step="1" value="30">
+            </div>
+            <div class="range-field">
+              <label for="calc-retire">Age you'd like to retire <output for="calc-retire" id="calc-retire-out">62</output></label>
+              <input type="range" id="calc-retire" name="retireAge" min="40" max="75" step="1" value="62">
+            </div>
+            <div class="range-field">
+              <label for="calc-savings">Savings &amp; investments today <output for="calc-savings" id="calc-savings-out">$20,000</output></label>
+              <input type="range" id="calc-savings" name="savings" min="0" max="500000" step="5000" value="20000">
+            </div>
+            <div class="range-field">
+              <label for="calc-monthly">Monthly top-up <output for="calc-monthly" id="calc-monthly-out">$500</output></label>
+              <input type="range" id="calc-monthly" name="monthly" min="0" max="5000" step="50" value="500">
+            </div>
+            <fieldset class="segmented">
+              <legend>Investment style</legend>
+              <label><input type="radio" name="rate" value="0.03"><span>Cautious<small>3% a year</small></span></label>
+              <label><input type="radio" name="rate" value="0.05" checked><span>Balanced<small>5% a year</small></span></label>
+              <label><input type="radio" name="rate" value="0.07"><span>Growth<small>7% a year</small></span></label>
+            </fieldset>
+          </form>
+
+          <div class="calc-result" aria-live="polite">
+            <h3>Your estimated nest egg</h3>
+            <p class="calc-pot" id="calc-pot">$0</p>
+            <p class="calc-income" id="calc-income"></p>
+            <div class="calc-bar" aria-hidden="true">
+              <div class="contrib" id="calc-bar-contrib"></div>
+              <div class="growth" id="calc-bar-growth"></div>
+            </div>
+            <div class="calc-legend">
+              <span><i class="k-contrib"></i>You put in: <strong id="calc-contrib">$0</strong></span>
+              <span><i class="k-growth"></i>Growth: <strong id="calc-growth">$0</strong></span>
+            </div>
+            <a href="#contact" class="btn btn-sun" data-interest="Retirement Planning" data-source="calculator">Turn this into a real plan</a>
+            <p class="calc-note">For illustration only. Assumes a constant return compounded monthly, before fees, tax and inflation. Returns aren't guaranteed and this isn't financial advice.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         5. TESTIMONIALS CAROUSEL
+         ========================================================= -->
+    <section class="section testimonials" id="testimonials" aria-labelledby="testimonials-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow fade-in">Kind words</span>
+          <h2 class="section-title fade-in" id="testimonials-title">Happy clients, <span class="squiggle">happy wallets</span></h2>
+          <p class="section-subtitle fade-in">Real stories from families and professionals who swapped money worries for a plan.</p>
+        </div>
+
+        <div class="carousel fade-in" role="region" aria-roledescription="carousel" aria-label="Client testimonials">
+          <div class="carousel-viewport">
+            <div class="carousel-track" id="carousel-track" aria-live="off">
+
+              <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="1 of 6">
+                <div class="testimonial-card">
+                  <div class="stars" role="img" aria-label="5 out of 5 stars"></div>
+                  <blockquote class="testimonial-quote">
+                    Horizon helped us map out our retirement down to the last detail. For the first time, we feel completely confident about the years ahead.
+                  </blockquote>
+                  <div class="testimonial-author">
+                    <span class="avatar av-1" aria-hidden="true">DT</span>
+                    <div>
+                      <p class="author-name">David Tan</p>
+                      <p class="author-role">Retired Engineer</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="2 of 6">
+                <div class="testimonial-card">
+                  <div class="stars" role="img" aria-label="5 out of 5 stars"></div>
+                  <blockquote class="testimonial-quote">
+                    As a busy surgeon I had no time to manage my investments. Their team built a clear strategy and keeps me updated without the jargon.
+                  </blockquote>
+                  <div class="testimonial-author">
+                    <span class="avatar av-2" aria-hidden="true">SL</span>
+                    <div>
+                      <p class="author-name">Dr. Sarah Lim</p>
+                      <p class="author-role">Orthopaedic Surgeon</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="3 of 6">
+                <div class="testimonial-card">
+                  <div class="stars" role="img" aria-label="5 out of 5 stars"></div>
+                  <blockquote class="testimonial-quote">
+                    They reviewed our insurance coverage and found gaps we never knew existed. Now our young family is properly protected at a lower cost.
+                  </blockquote>
+                  <div class="testimonial-author">
+                    <span class="avatar av-3" aria-hidden="true">MW</span>
+                    <div>
+                      <p class="author-name">Marcus Wong</p>
+                      <p class="author-role">Product Manager</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="4 of 6">
+                <div class="testimonial-card">
+                  <div class="stars" role="img" aria-label="5 out of 5 stars"></div>
+                  <blockquote class="testimonial-quote">
+                    Planning my estate felt overwhelming until I met Horizon. They handled everything with patience, care and genuine professionalism.
+                  </blockquote>
+                  <div class="testimonial-author">
+                    <span class="avatar av-4" aria-hidden="true">PN</span>
+                    <div>
+                      <p class="author-name">Priya Nair</p>
+                      <p class="author-role">Business Owner</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="5 of 6">
+                <div class="testimonial-card">
+                  <div class="stars" role="img" aria-label="5 out of 5 stars"></div>
+                  <blockquote class="testimonial-quote">
+                    Their tax planning advice alone saved me more than their fees. I only wish I had started working with them ten years earlier.
+                  </blockquote>
+                  <div class="testimonial-author">
+                    <span class="avatar av-1" aria-hidden="true">JK</span>
+                    <div>
+                      <p class="author-name">James Koh</p>
+                      <p class="author-role">Financial Controller</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="carousel-slide" role="group" aria-roledescription="slide" aria-label="6 of 6">
+                <div class="testimonial-card">
+                  <div class="stars" role="img" aria-label="5 out of 5 stars"></div>
+                  <blockquote class="testimonial-quote">
+                    From our first coffee chat to our annual reviews, Horizon has felt like a trusted partner rather than just another advisor.
+                  </blockquote>
+                  <div class="testimonial-author">
+                    <span class="avatar av-2" aria-hidden="true">EC</span>
+                    <div>
+                      <p class="author-name">Emily Chen</p>
+                      <p class="author-role">Secondary School Teacher</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </div>
+
+          <div class="carousel-controls">
+            <button class="carousel-btn carousel-prev" type="button" aria-label="Previous testimonial" aria-controls="carousel-track">
+              <svg class="icon" aria-hidden="true"><use href="#i-left"/></svg>
+            </button>
+            <div class="carousel-dots" role="tablist" aria-label="Choose testimonial"></div>
+            <button class="carousel-btn carousel-next" type="button" aria-label="Next testimonial" aria-controls="carousel-track">
+              <svg class="icon" aria-hidden="true"><use href="#i-right"/></svg>
+            </button>
+            <button class="carousel-btn carousel-pause" type="button" aria-label="Pause auto-play">
+              <svg class="icon" aria-hidden="true"><use href="#i-pause"/></svg>
+            </button>
+          </div>
+          <p class="visually-hidden" id="carousel-status" aria-live="polite"></p>
+        </div>
+
+        <div class="center-cta fade-in">
+          <a href="#contact" class="btn btn-primary" data-source="testimonials">I want that feeling too</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         6. FREE CHECKLIST (lead magnet)
+         ========================================================= -->
+    <section class="section guide" id="guide" aria-labelledby="guide-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow fade-in">Free download</span>
+          <h2 class="section-title fade-in" id="guide-title">The 2026 Money <span class="squiggle">Glow-Up Checklist</span></h2>
+          <p class="section-subtitle fade-in">10 quick wins you can tick off in an afternoon. Zero jargon, all action.</p>
+        </div>
+
+        <div class="guide-card fade-in">
+          <div class="guide-mock" aria-hidden="true">
+            <span class="mock-sticker">100%<br>free</span>
+            <h3><small>Horizon Wealth</small>Money Glow-Up 2026</h3>
+            <p class="mock-item"><span class="mock-box"><svg class="icon"><use href="#i-check"/></svg></span>Build a 6-month rainy-day fund</p>
+            <p class="mock-item"><span class="mock-box"><svg class="icon"><use href="#i-check"/></svg></span>Check your CPF top-up options</p>
+            <p class="mock-item"><span class="mock-box"><svg class="icon"><use href="#i-check"/></svg></span>Find gaps in your insurance</p>
+            <p class="mock-item blur"><span class="mock-box"></span>Automate your investing</p>
+            <p class="mock-item blur"><span class="mock-box"></span>Write a simple will</p>
+            <p class="mock-item blur"><span class="mock-box"></span>Claim every tax relief</p>
+          </div>
+
+          <div class="guide-copy" id="guide-copy">
+            <h3>Get the full checklist, free</h3>
+            <p>Pop in your email and it unlocks instantly on this page, ready to tick off or print.</p>
+            <ul class="check-list">
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>The 10 money moves our planners recommend most</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Singapore-specific: CPF, SRS and tax reliefs</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Takes about 10 minutes to read</li>
+            </ul>
+            <form class="gate-form" id="guide-form" method="post" novalidate aria-label="Get the free checklist">
+              <div class="hp" aria-hidden="true">
+                <label for="guide-website">Leave this field empty</label>
+                <input type="text" id="guide-website" name="website" tabindex="-1" autocomplete="off">
+              </div>
+              <label for="guide-email" class="visually-hidden">Email address</label>
+              <input class="form-control" type="email" id="guide-email" name="email" maxlength="254" autocomplete="email" placeholder="you@example.com" required aria-describedby="guide-msg">
+              <button type="submit" class="btn btn-primary">Send me the checklist</button>
+              <p class="gate-msg" id="guide-msg" aria-live="polite"></p>
+            </form>
+            <p class="fine-print">No spam, ever. Unsubscribe in one click.</p>
+          </div>
+
+          <!-- Revealed after sign-up -->
+          <div class="checklist-unlocked" id="guide-unlocked" hidden>
+            <h3 id="guide-unlocked-title" tabindex="-1">Your 2026 Money Glow-Up Checklist</h3>
+            <p class="section-subtitle">Tick them off as you go. A copy is on its way to your inbox, too.</p>
+            <div class="checklist-full">
+              <label><input type="checkbox"><span><strong>Build a rainy-day fund</strong><span>Aim for 3 to 6 months of expenses in a high-yield savings account.</span></span></label>
+              <label><input type="checkbox"><span><strong>Check your CPF top-up options</strong><span>Voluntary top-ups can grow your retirement savings and may lower your tax.</span></span></label>
+              <label><input type="checkbox"><span><strong>Find gaps in your insurance</strong><span>List your hospital, life and critical-illness cover. Are your loved ones covered?</span></span></label>
+              <label><input type="checkbox"><span><strong>Automate your investing</strong><span>Set up a monthly transfer on payday so investing happens without thinking.</span></span></label>
+              <label><input type="checkbox"><span><strong>Look into SRS</strong><span>The Supplementary Retirement Scheme can give you tax relief while you save.</span></span></label>
+              <label><input type="checkbox"><span><strong>Claim every tax relief</strong><span>Parent, child, course-fee and CPF reliefs add up. Check them before filing.</span></span></label>
+              <label><input type="checkbox"><span><strong>Kill one sneaky subscription</strong><span>Cancel one you forgot about and redirect it to savings.</span></span></label>
+              <label><input type="checkbox"><span><strong>Write a simple will</strong><span>And make a CPF nomination. It takes an afternoon and saves loved ones months.</span></span></label>
+              <label><input type="checkbox"><span><strong>Name your goals</strong><span>Home, kids' education, retirement: give each one a number and a date.</span></span></label>
+              <label><input type="checkbox"><span><strong>Book a yearly money check-up</strong><span>Like a dental check-up, but for your wallet. Your first one with us is free.</span></span></label>
+            </div>
+            <div class="checklist-actions">
+              <a href="#contact" class="btn btn-primary" data-source="guide">Book my free money check-up</a>
+              <button type="button" class="btn btn-white" id="guide-print"><svg class="icon" aria-hidden="true"><use href="#i-print"/></svg>Print / save as PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         7. FAQ
+         ========================================================= -->
+    <section class="section faq" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow fade-in">Good questions</span>
+          <h2 class="section-title fade-in" id="faq-title">Things people <span class="squiggle">often ask</span></h2>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item fade-in">
+            <summary>Is the first chat really free?</summary>
+            <p>Yep! The first 30-minute chat is free with no strings attached. If we're not the right fit, we'll happily point you somewhere that is.</p>
+          </details>
+          <details class="faq-item fade-in">
+            <summary>Do I need lots of money to work with you?</summary>
+            <p>Not at all. Some of our favourite clients started with a fresh-grad salary and a dream. Good planning matters most when you're just starting out.</p>
+          </details>
+          <details class="faq-item fade-in">
+            <summary>Will you try to sell me products?</summary>
+            <p>Our job is to build a plan that works for you. We explain every recommendation and how we're paid, in plain English, and you decide. No pressure, ever.</p>
+          </details>
+          <details class="faq-item fade-in">
+            <summary>What should I bring to the first chat?</summary>
+            <p>Just yourself and your questions. A rough idea of your income, savings and any policies you hold helps, but we can figure the details out together.</p>
+          </details>
+          <details class="faq-item fade-in">
+            <summary>How do you keep my information safe?</summary>
+            <p>We only ask for what we need, never ask for passwords or bank PINs, and we'll never share your details with third parties for marketing.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         8. ENQUIRY FORM
+         ========================================================= -->
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow fade-in">Free 30-min chat</span>
+          <h2 class="section-title fade-in" id="contact-title">Let's make a <span class="squiggle">plan together</span></h2>
+          <p class="section-subtitle fade-in">Tell us a little about you and we'll reply within one business day. It takes about a minute.</p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Contact information -->
+          <aside class="contact-info fade-in" aria-label="Contact information">
+            <h3>What happens next?</h3>
+            <p>Simple, friendly and zero pressure.</p>
+            <ol class="next-steps">
+              <li>We'll reach out within one business day to find a time that suits you.</li>
+              <li>We have a relaxed 30-minute chat, by phone, video or over coffee.</li>
+              <li>You get a clear next step, whether or not you work with us.</li>
+            </ol>
+
+            <ul class="info-list">
+              <li class="info-item">
+                <span class="info-icon" aria-hidden="true"><svg class="icon"><use href="#i-pin"/></svg></span>
+                <div>
+                  <h4>Visit us</h4>
+                  <p>Level 18, 1 Horizon Tower<br>88 Market Street, Singapore 048948</p>
+                </div>
+              </li>
+              <li class="info-item">
+                <span class="info-icon" aria-hidden="true"><svg class="icon"><use href="#i-phone"/></svg></span>
+                <div>
+                  <h4>Call</h4>
+                  <p><a href="tel:+6561234567">+65 6123 4567</a></p>
+                </div>
+              </li>
+              <li class="info-item">
+                <span class="info-icon" aria-hidden="true"><svg class="icon"><use href="#i-mail"/></svg></span>
+                <div>
+                  <h4>Email</h4>
+                  <p><a href="mailto:hello@horizonwealth.example">hello@horizonwealth.example</a></p>
+                </div>
+              </li>
+              <li class="info-item">
+                <span class="info-icon" aria-hidden="true"><svg class="icon"><use href="#i-clock"/></svg></span>
+                <div>
+                  <h4>Hours</h4>
+                  <p>Mon – Fri: 9:00am – 6:00pm<br>Sat: 9:00am – 1:00pm (by appointment)</p>
+                </div>
+              </li>
+            </ul>
+          </aside>
+
+          <!-- Enquiry form -->
+          <div class="form-card fade-in delay-1" id="form-container">
+            <h3>Book your free chat</h3>
+            <p>Fields marked <span class="required" aria-hidden="true">*</span><span class="visually-hidden">with an asterisk</span> are required.</p>
+            <form id="enquiry-form" method="post" novalidate aria-label="Enquiry form">
+              <!-- Anti-spam honeypot and lead-source tracking: not user fields, so no validators entry -->
+              <div class="hp" aria-hidden="true">
+                <label for="enq-website">Leave this field empty</label>
+                <input type="text" id="enq-website" name="website" tabindex="-1" autocomplete="off">
+              </div>
+              <input type="hidden" name="leadSource" id="leadSource" value="direct">
+
+              <div class="form-grid">
+                <div class="form-group full">
+                  <label for="fullName">Your name <span class="required" aria-hidden="true">*</span></label>
+                  <input class="form-control" type="text" id="fullName" name="fullName" maxlength="80" autocomplete="name" placeholder="e.g. Jane Tan" required aria-describedby="fullName-error">
+                  <span class="error-msg" id="fullName-error" aria-live="polite"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email <span class="required" aria-hidden="true">*</span></label>
+                  <input class="form-control" type="email" id="email" name="email" maxlength="254" autocomplete="email" placeholder="you@example.com" required aria-describedby="email-error">
+                  <span class="error-msg" id="email-error" aria-live="polite"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="phone">Phone <span class="required" aria-hidden="true">*</span></label>
+                  <input class="form-control" type="tel" id="phone" name="phone" maxlength="15" autocomplete="tel" inputmode="numeric" placeholder="e.g. 91234567" required aria-describedby="phone-error">
+                  <span class="error-msg" id="phone-error" aria-live="polite"></span>
+                </div>
+
+                <div class="form-group full">
+                  <label for="interest">What can we help with? <span class="required" aria-hidden="true">*</span></label>
+                  <select class="form-control" id="interest" name="interest" required aria-describedby="interest-error">
+                    <option value="">Pick the closest one</option>
+                    <option>Retirement Planning</option>
+                    <option>Investment</option>
+                    <option>Insurance</option>
+                    <option>Estate Planning</option>
+                    <option>Tax Planning</option>
+                    <option>Not sure yet, just want a chat</option>
+                  </select>
+                  <span class="error-msg" id="interest-error" aria-live="polite"></span>
+                </div>
+
+                <fieldset class="form-group full" aria-describedby="contactMethod-error">
+                  <legend>Best way to reach you <span class="required" aria-hidden="true">*</span></legend>
+                  <div class="radio-group" id="contactMethod-group">
+                    <label class="radio-option"><input type="radio" name="contactMethod" value="Email"><span>Email</span></label>
+                    <label class="radio-option"><input type="radio" name="contactMethod" value="Phone"><span>Phone</span></label>
+                    <label class="radio-option"><input type="radio" name="contactMethod" value="WhatsApp"><span>WhatsApp</span></label>
+                  </div>
+                  <span class="error-msg" id="contactMethod-error" aria-live="polite"></span>
+                </fieldset>
+
+                <div class="form-group full">
+                  <label for="message">Anything you'd like us to know? <span class="optional">(optional)</span></label>
+                  <textarea class="form-control" id="message" name="message" rows="4" maxlength="1000" placeholder="e.g. We'd love to retire by 60 and travel more" aria-describedby="message-error"></textarea>
+                  <span class="error-msg" id="message-error" aria-live="polite"></span>
+                </div>
+
+                <div class="form-group full">
+                  <label class="checkbox-option" id="consent-label">
+                    <input type="checkbox" id="consent" name="consent" required aria-describedby="consent-error">
+                    <span>I agree to be contacted by Horizon Wealth Planning about my enquiry and understand my data will be handled in line with the privacy policy.</span>
+                  </label>
+                  <span class="error-msg" id="consent-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary form-submit" id="submit-btn">
+                <span class="spinner" aria-hidden="true"></span>
+                <span class="btn-text">Book my free chat</span>
+              </button>
+              <p class="fine-print">We never ask for passwords, PINs or bank details.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       9. FOOTER
+       ========================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Column 1: Logo + description + social -->
+        <div class="footer-col">
+          <a href="#home" class="logo" aria-label="Horizon Wealth Planning home">
+            <svg class="logo-mark" viewBox="0 0 200 172" aria-hidden="true"><use href="#piggy"/></svg>
+            Horizon<span>Wealth</span>
+          </a>
+          <p>Friendly, independent financial planners helping Singapore families retire comfortably, grow their wealth and protect what matters since 2010.</p>
+
+          <ul class="social-links" aria-label="Social media">
+            <li>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook (opens in a new tab)">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14A28 28 0 0 0 14.64 2C11.92 2 10 3.66 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 5a2 2 0 1 1-4-.002 2 2 0 0 1 4 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in a new tab)">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X, formerly Twitter (opens in a new tab)">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64z"/></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Free tools -->
+        <nav class="footer-col" aria-label="Footer free tools">
+          <h3>Free tools</h3>
+          <ul class="footer-links">
+            <li><a href="#quiz">Money personality quiz</a></li>
+            <li><a href="#calculator">Retirement calculator</a></li>
+            <li><a href="#guide">2026 Glow-Up Checklist</a></li>
+            <li><a href="#contact">Free 30-min chat</a></li>
+          </ul>
+        </nav>
+
+        <!-- Column 3: Services -->
+        <div class="footer-col">
+          <h3>Our services</h3>
+          <ul class="footer-links">
+            <li><a href="#contact" data-interest="Retirement Planning" data-source="footer">Retirement Planning</a></li>
+            <li><a href="#contact" data-interest="Investment" data-source="footer">Investment Management</a></li>
+            <li><a href="#contact" data-interest="Insurance" data-source="footer">Insurance Planning</a></li>
+            <li><a href="#contact" data-interest="Estate Planning" data-source="footer">Estate Planning</a></li>
+            <li><a href="#contact" data-interest="Tax Planning" data-source="footer">Tax Planning</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Newsletter -->
+        <div class="footer-col">
+          <h3>The Monthly Oink</h3>
+          <p>One friendly email a month with money tips you'll actually use. No spam, ever.</p>
+          <form class="gate-form newsletter-form" id="newsletter-form" method="post" novalidate aria-label="Newsletter sign-up">
+            <div class="hp" aria-hidden="true">
+              <label for="news-website">Leave this field empty</label>
+              <input type="text" id="news-website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <label for="newsletter-email" class="visually-hidden">Email address</label>
+            <input class="form-control" type="email" id="newsletter-email" name="newsletterEmail" maxlength="254" placeholder="Your email address" autocomplete="email" aria-describedby="newsletter-msg">
+            <button type="submit" class="btn btn-sun">Subscribe</button>
+            <p class="gate-msg" id="newsletter-msg" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; <span id="year"></span> Horizon Wealth Planning. All rights reserved.</p>
+        <p>This website is for general information only and does not constitute financial advice. Quiz and calculator results are illustrative and do not consider your personal circumstances.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile CTA -->
+  <div class="sticky-cta" id="sticky-cta">
+    <a href="#quiz" class="btn btn-white">Money quiz</a>
+    <a href="#contact" class="btn btn-primary" data-source="sticky-bar">Free chat</a>
+  </div>
+
+  <!-- Back to top -->
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">
+    <svg class="icon" aria-hidden="true"><use href="#i-up"/></svg>
+  </button>
+
+  <!-- Exit-intent offer (desktop, once per session) -->
+  <dialog class="exit-dialog" id="exit-dialog" aria-labelledby="exit-title">
+    <button type="button" class="dialog-close" data-close aria-label="Close">
+      <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+    </button>
+    <svg class="result-badge" viewBox="0 0 200 172" aria-hidden="true"><use href="#piggy"/></svg>
+    <h2 id="exit-title">Psst! Before you go…</h2>
+    <p>Grab the free 2026 Money Glow-Up Checklist: 10 quick wins, about 10 minutes, zero jargon.</p>
+    <div class="result-actions">
+      <a href="#guide" class="btn btn-primary" data-close data-source="exit-popup">Yes, show me</a>
+      <button type="button" class="link-btn" data-close>Maybe later</button>
+    </div>
+  </dialog>
+
+  <!-- Templates (cloned by JS so no HTML strings are ever parsed) -->
+  <template id="star-tpl"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg></template>
+  <template id="success-tpl">
+    <div class="form-success" role="status" tabindex="-1">
+      <svg class="result-badge" viewBox="0 0 200 172" aria-hidden="true"><use href="#piggy"/></svg>
+      <h3></h3>
+      <p>Your request is in! One of our planners will reach out within one business day to set up your free chat. Penny the piggy is very excited.</p>
+    </div>
+  </template>
+
+  <script>
+    /* =========================================================
+       0. CLICKJACKING GUARD (runs immediately, before DOMContentLoaded)
+          GitHub Pages can't send frame-ancestors / X-Frame-Options headers, so
+          hide the page and try to break out when it is loaded inside a frame.
+       ========================================================= */
+    if (window.top !== window.self) {
+      document.documentElement.classList.add("framed");
+      try { window.top.location = window.self.location.href; } catch (err) { /* cross-origin: stay hidden */ }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      "use strict";
+
+      const EMAIL_RE = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[a-z]{2,}$/i;
+      const NAME_RE = /^[\p{L}\p{M}' .,-]+$/u;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const pageLoadedAt = performance.now();
+
+      /* =========================================================
+         1. SECURITY HELPERS (input hygiene and anti-spam)
+         ========================================================= */
+      // Strip control characters, trim and cap length
+      const clean = (value, max) => String(value).replace(/[\u0000-\u001F\u007F]/g, " ").trim().slice(0, max);
+
+      // Neutralise spreadsheet formula injection before the lead lands in a CSV or CRM export
+      const csvSafe = (value) => (/^[=+\-@]/.test(value) ? `'${value}` : value);
+
+      const isEmail = (value) => value.length <= 254 && EMAIL_RE.test(value);
+
+      // Bots fill the honeypot or submit within seconds of page load
+      const isLikelyBot = (formEl) => {
+        const trap = formEl.querySelector('input[name="website"]');
+        return Boolean(trap && trap.value) || performance.now() - pageLoadedAt < 3000;
+      };
+
+      // Simple per-form throttle against rapid repeat submissions
+      const lastSubmitAt = new WeakMap();
+      const throttled = (formEl) => Date.now() - (lastSubmitAt.get(formEl) || 0) < 5000;
+      const markSubmitted = (formEl) => lastSubmitAt.set(formEl, Date.now());
+
+      // Placeholder for a real backend call. Bot submissions are silently dropped.
+      const sendLead = (formEl, record) => {
+        if (isLikelyBot(formEl)) return;
+        const safe = {};
+        Object.keys(record).forEach((key) => {
+          safe[key] = typeof record[key] === "string" ? csvSafe(record[key]) : record[key];
+        });
+        safe.submittedAt = new Date().toISOString();
+        console.log(JSON.stringify(safe, null, 2));
+      };
+
+      const safeSession = {
+        get: (key) => { try { return sessionStorage.getItem(key); } catch (err) { return null; } },
+        set: (key, value) => { try { sessionStorage.setItem(key, value); } catch (err) { /* storage blocked */ } }
+      };
+
+      /* =========================================================
+         2. MOBILE NAVIGATION (hamburger toggle)
+         ========================================================= */
+      const navToggle = document.querySelector(".nav-toggle");
+      const navMenu = document.getElementById("nav-menu");
+
+      const setMenu = (open) => {
+        navMenu.classList.toggle("open", open);
+        navToggle.setAttribute("aria-expanded", String(open));
+        navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      };
+
+      navToggle.addEventListener("click", () => setMenu(!navMenu.classList.contains("open")));
+      navMenu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && navMenu.classList.contains("open")) {
+          setMenu(false);
+          navToggle.focus();
+        }
+      });
+
+      /* =========================================================
+         3. FADE-IN ON SCROLL (IntersectionObserver)
+         ========================================================= */
+      const fadeObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll(".fade-in").forEach((el) => fadeObserver.observe(el));
+
+      /* =========================================================
+         4. ANIMATED STAT COUNTERS
+         ========================================================= */
+      const animateCounter = (el) => {
+        const target = Number(el.dataset.target);
+        const prefix = el.dataset.prefix || "";
+        const suffix = el.dataset.suffix || "";
+        const duration = reducedMotion ? 0 : 2000;
+        const start = performance.now();
+
+        const tick = (now) => {
+          const progress = duration ? Math.min((now - start) / duration, 1) : 1;
+          const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+          el.textContent = prefix + Math.round(target * eased).toLocaleString("en-US") + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+
+      const counterObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.6 });
+
+      document.querySelectorAll(".stat-number").forEach((el) => counterObserver.observe(el));
+
+      /* =========================================================
+         5. LEAD SOURCE & INTEREST PREFILL
+            Links with data-source / data-interest tell the enquiry form
+            which lead magnet or CTA brought the visitor there.
+         ========================================================= */
+      const form = document.getElementById("enquiry-form");
+      const leadSourceInput = document.getElementById("leadSource");
+      const SOURCE_RE = /^[a-z0-9:-]{1,40}$/;
+
+      const setLead = (source, interest) => {
+        if (!form.isConnected) return;
+        if (source && SOURCE_RE.test(source)) leadSourceInput.value = source;
+        if (interest) {
+          const match = Array.from(form.interest.options).find((o) => o.value === interest);
+          if (match) form.interest.value = match.value;
+        }
+      };
+
+      document.querySelectorAll("[data-source], [data-interest]").forEach((el) => {
+        el.addEventListener("click", () => setLead(el.dataset.source, el.dataset.interest));
+      });
+
+      /* =========================================================
+         6. SHARED EMAIL GATE (quiz tips, checklist, newsletter)
+         ========================================================= */
+      const setupEmailGate = (formEl, onSuccess) => {
+        const input = formEl.querySelector('input[type="email"]');
+        const msg = formEl.querySelector(".gate-msg");
+        const setMsg = (text, type) => {
+          msg.textContent = text;
+          msg.className = type ? `gate-msg ${type}` : "gate-msg";
+        };
+        const setInvalid = (invalid) => {
+          input.classList.toggle("invalid", invalid);
+          if (invalid) input.setAttribute("aria-invalid", "true");
+          else input.removeAttribute("aria-invalid");
+        };
+
+        formEl.addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (throttled(formEl)) { setMsg("Whoa, speedy! Give it a few seconds and try again.", "error"); return; }
+
+          const value = clean(input.value, 254);
+          if (!value || !isEmail(value)) {
+            setMsg(value ? "Hmm, that email doesn't look quite right." : "Please pop in your email address.", "error");
+            setInvalid(true);
+            input.focus();
+            return;
+          }
+
+          setInvalid(false);
+          markSubmitted(formEl);
+          sendLead(formEl, { form: formEl.id, email: value });
+          onSuccess(setMsg);
+        });
+
+        input.addEventListener("input", () => { setInvalid(false); setMsg(""); });
+      };
+
+      /* =========================================================
+         7. MONEY PERSONALITY QUIZ
+         ========================================================= */
+      const QUIZ = [
+        { q: "Payday lands! What's your first move?", a: [
+          ["Straight into savings, obviously", "squirrel"],
+          ["Book that weekend getaway", "otter"],
+          ["Update my budget spreadsheet", "owl"],
+          ["Payday? I barely noticed", "bee"]] },
+        { q: "A friend says “let's invest in something!” You…", a: [
+          ["Ask if it's safe and if I can get my money back", "squirrel"],
+          ["I'm in! What's the most exciting option?", "otter"],
+          ["Compare the fees and returns first", "owl"],
+          ["Love it, as long as someone else handles it", "bee"]] },
+        { q: "Retirement, in one word:", a: [
+          ["Secure", "squirrel"],
+          ["Adventures", "otter"],
+          ["Calculated", "owl"],
+          ["Someday…", "bee"]] },
+        { q: "How's your money-stress level right now?", a: [
+          ["Low, but I worry about the what-ifs", "squirrel"],
+          ["What stress? Until the credit card bill arrives", "otter"],
+          ["Mild. I just want to optimise", "owl"],
+          ["High. I simply don't have the time", "bee"]] }
+      ];
+
+      const PERSONAS = {
+        squirrel: {
+          name: "The Careful Squirrel",
+          blurb: "You're a natural saver with a cosy stash for winter. The catch? Cash sitting still can quietly lose value to inflation.",
+          tips: ["Keep 6 months of expenses as your safety stash, then put the rest to work.",
+                 "Start a small monthly investment in a diversified fund. Even $200 adds up.",
+                 "Check your CPF top-up options for steady, low-risk growth."],
+          interest: "Investment"
+        },
+        otter: {
+          name: "The Adventurous Otter",
+          blurb: "You live life to the fullest and we love that! A little structure means you can keep the fun and still be safe.",
+          tips: ["Try the 50/30/20 rule: needs, fun, future. Automate the 20% on payday.",
+                 "Check your hospital and critical-illness cover so one surprise doesn't sink the boat.",
+                 "Give your next big trip its own savings pot so it never touches your bills."],
+          interest: "Insurance"
+        },
+        owl: {
+          name: "The Planner Owl",
+          blurb: "Spreadsheets, goals, a plan for the plan. You're already ahead, so now it's about squeezing out every extra percent.",
+          tips: ["Review the fees across all your investments. A 1% saving compounds hugely.",
+                 "Use SRS contributions and tax reliefs to lower this year's tax bill.",
+                 "Stress-test your retirement number against inflation and living longer."],
+          interest: "Retirement Planning"
+        },
+        bee: {
+          name: "The Busy Bee",
+          blurb: "Always buzzing and never enough hours. You don't need more to-dos, you need a plan that runs itself.",
+          tips: ["Set up automatic transfers on payday so saving takes zero effort.",
+                 "Combine old accounts and policies into one simple view.",
+                 "Hand over the heavy lifting to a planner and get a 30-minute yearly check-in."],
+          interest: "Investment"
+        }
+      };
+
+      const questionView = document.getElementById("quiz-question-view");
+      const quizStep = document.getElementById("quiz-step");
+      const quizFill = document.getElementById("quiz-fill");
+      const quizQuestion = document.getElementById("quiz-question");
+      const quizOptions = document.getElementById("quiz-options");
+      const quizBack = document.getElementById("quiz-back");
+      const quizResult = document.getElementById("quiz-result");
+      const quizGate = document.getElementById("quiz-gate");
+      const quizTips = document.getElementById("quiz-tips");
+      const tipsList = document.getElementById("tips-list");
+      const quizBook = document.getElementById("quiz-book");
+      let answers = [];
+      let currentPersona = null;
+
+      const renderQuestion = (focus) => {
+        const i = answers.length;
+        const item = QUIZ[i];
+        quizStep.textContent = `Question ${i + 1} of ${QUIZ.length}`;
+        quizFill.style.transform = `scaleX(${i / QUIZ.length})`;
+        quizQuestion.textContent = item.q;
+        quizBack.hidden = i === 0;
+
+        quizOptions.replaceChildren(...item.a.map(([label, type], n) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "quiz-option";
+          const letter = document.createElement("span");
+          letter.className = "letter";
+          letter.setAttribute("aria-hidden", "true");
+          letter.textContent = "ABCD"[n];
+          btn.append(letter, document.createTextNode(label));
+          btn.addEventListener("click", () => answer(type));
+          return btn;
+        }));
+
+        if (focus) quizQuestion.focus();
+      };
+
+      const answer = (type) => {
+        answers.push(type);
+        if (answers.length < QUIZ.length) renderQuestion(true);
+        else showResult();
+      };
+
+      const showResult = () => {
+        const counts = {};
+        answers.forEach((t) => { counts[t] = (counts[t] || 0) + 1; });
+        const winner = Object.keys(PERSONAS).reduce((best, t) => ((counts[t] || 0) > (counts[best] || 0) ? t : best));
+        currentPersona = winner;
+        const persona = PERSONAS[winner];
+
+        document.getElementById("result-name").textContent = persona.name;
+        document.getElementById("result-blurb").textContent = persona.blurb;
+        tipsList.replaceChildren(...persona.tips.map((tip) => {
+          const li = document.createElement("li");
+          li.textContent = tip;
+          return li;
+        }));
+        quizBook.dataset.interest = persona.interest;
+        quizBook.dataset.source = `quiz-${winner}`;
+
+        questionView.hidden = true;
+        quizResult.hidden = false;
+        quizResult.focus();
+      };
+
+      quizBook.addEventListener("click", () => setLead(quizBook.dataset.source, quizBook.dataset.interest));
+
+      quizBack.addEventListener("click", () => {
+        answers.pop();
+        renderQuestion(true);
+      });
+
+      document.getElementById("quiz-restart").addEventListener("click", () => {
+        answers = [];
+        currentPersona = null;
+        quizResult.hidden = true;
+        questionView.hidden = false;
+        renderQuestion(true);
+      });
+
+      setupEmailGate(document.getElementById("quiz-form"), () => {
+        quizGate.hidden = true;
+        quizTips.hidden = false;
+        tipsList.setAttribute("tabindex", "-1");
+        tipsList.setAttribute("aria-label", `Your ${PERSONAS[currentPersona].name} tips`);
+        tipsList.focus();
+      });
+
+      renderQuestion(false);
+
+      /* =========================================================
+         8. RETIREMENT CALCULATOR
+         ========================================================= */
+      const calcForm = document.getElementById("calc-form");
+      const money = (n) => "$" + Math.round(n).toLocaleString("en-SG");
+      const RETIREMENT_YEARS = 25;
+
+      const futureValue = (pv, pmt, annualRate, years) => {
+        const r = annualRate / 12;
+        const n = years * 12;
+        if (!r) return pv + pmt * n;
+        const growth = Math.pow(1 + r, n);
+        return pv * growth + pmt * (growth - 1) / r;
+      };
+
+      const updateCalculator = () => {
+        const age = Number(calcForm.age.value);
+        const retireAge = Number(calcForm.retireAge.value);
+        const savings = Number(calcForm.savings.value);
+        const monthly = Number(calcForm.monthly.value);
+        const rate = Number(calcForm.querySelector('input[name="rate"]:checked').value);
+
+        document.getElementById("calc-age-out").textContent = age;
+        document.getElementById("calc-retire-out").textContent = retireAge;
+        document.getElementById("calc-savings-out").textContent = money(savings);
+        document.getElementById("calc-monthly-out").textContent = money(monthly);
+
+        const potEl = document.getElementById("calc-pot");
+        const incomeEl = document.getElementById("calc-income");
+        const years = retireAge - age;
+
+        if (years <= 0) {
+          potEl.textContent = "Oops!";
+          incomeEl.textContent = "Pick a retirement age that's after your current age.";
+          return;
+        }
+
+        const pot = futureValue(savings, monthly, rate, years);
+        const contributed = savings + monthly * years * 12;
+        const growth = Math.max(pot - contributed, 0);
+
+        potEl.textContent = money(pot);
+        incomeEl.replaceChildren(
+          document.createTextNode("That's roughly "),
+          Object.assign(document.createElement("strong"), { textContent: `${money(pot / (RETIREMENT_YEARS * 12))} a month` }),
+          document.createTextNode(` for ${RETIREMENT_YEARS} years, starting in ${years} years.`)
+        );
+        document.getElementById("calc-contrib").textContent = money(contributed);
+        document.getElementById("calc-growth").textContent = money(growth);
+
+        const total = contributed + growth || 1;
+        document.getElementById("calc-bar-contrib").style.width = `${(contributed / total) * 100}%`;
+        document.getElementById("calc-bar-growth").style.width = `${(growth / total) * 100}%`;
+      };
+
+      calcForm.addEventListener("input", updateCalculator);
+      calcForm.addEventListener("submit", (e) => e.preventDefault());
+      updateCalculator();
+
+      /* =========================================================
+         9. TESTIMONIAL CAROUSEL
+         ========================================================= */
+      const carousel = document.querySelector(".carousel");
+      const track = document.getElementById("carousel-track");
+      const slides = Array.from(track.children);
+      const dotsWrap = carousel.querySelector(".carousel-dots");
+      const status = document.getElementById("carousel-status");
+      const pauseBtn = carousel.querySelector(".carousel-pause");
+      const AUTO_DELAY = 5000;
+      const desktopQuery = window.matchMedia("(min-width: 1024px)");
+
+      // Insert 5 star icons into every card (cloned from a template, no HTML strings)
+      const starTpl = document.getElementById("star-tpl");
+      carousel.querySelectorAll(".stars").forEach((el) => {
+        for (let i = 0; i < 5; i++) el.appendChild(starTpl.content.cloneNode(true));
+      });
+
+      let perView = desktopQuery.matches ? 3 : 1;
+      let index = 0;
+      let timer = null;
+      let userPaused = reducedMotion;
+
+      const pageCount = () => slides.length - perView + 1;
+
+      const buildDots = () => {
+        const dots = [];
+        for (let i = 0; i < pageCount(); i++) {
+          const dot = document.createElement("button");
+          dot.type = "button";
+          dot.className = "carousel-dot";
+          dot.setAttribute("role", "tab");
+          dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+          dot.addEventListener("click", () => { goTo(i); restart(); });
+          dots.push(dot);
+        }
+        dotsWrap.replaceChildren(...dots);
+      };
+
+      const update = () => {
+        track.style.transform = `translateX(-${index * (100 / perView)}%)`;
+
+        dotsWrap.querySelectorAll(".carousel-dot").forEach((dot, i) => {
+          const active = i === index;
+          dot.setAttribute("aria-selected", String(active));
+          dot.tabIndex = active ? 0 : -1;
+        });
+
+        // Hide off-screen slides from assistive tech and keyboard focus
+        slides.forEach((slide, i) => {
+          const visible = i >= index && i < index + perView;
+          slide.setAttribute("aria-hidden", String(!visible));
+          if ("inert" in slide) slide.inert = !visible;
+        });
+
+        const last = Math.min(index + perView, slides.length);
+        status.textContent = perView === 1
+          ? `Showing testimonial ${index + 1} of ${slides.length}`
+          : `Showing testimonials ${index + 1} to ${last} of ${slides.length}`;
+      };
+
+      const goTo = (i) => {
+        const pages = pageCount();
+        index = (i + pages) % pages; // wrap around in both directions
+        update();
+      };
+
+      const next = () => goTo(index + 1);
+      const prev = () => goTo(index - 1);
+
+      const start = () => {
+        if (userPaused || timer) return;
+        timer = setInterval(next, AUTO_DELAY);
+      };
+      const stop = () => { clearInterval(timer); timer = null; };
+      const restart = () => { stop(); start(); };
+
+      const setPauseButton = () => {
+        pauseBtn.setAttribute("aria-label", userPaused ? "Start auto-play" : "Pause auto-play");
+        pauseBtn.querySelector("use").setAttribute("href", userPaused ? "#i-play" : "#i-pause");
+      };
+
+      pauseBtn.addEventListener("click", () => {
+        userPaused = !userPaused;
+        setPauseButton();
+        userPaused ? stop() : start();
+      });
+
+      carousel.querySelector(".carousel-next").addEventListener("click", () => { next(); restart(); });
+      carousel.querySelector(".carousel-prev").addEventListener("click", () => { prev(); restart(); });
+
+      // Pause on hover / keyboard focus
+      carousel.addEventListener("mouseenter", stop);
+      carousel.addEventListener("mouseleave", start);
+      carousel.addEventListener("focusin", stop);
+      carousel.addEventListener("focusout", (e) => {
+        if (!carousel.contains(e.relatedTarget)) start();
+      });
+
+      // Keyboard arrows
+      carousel.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") { next(); }
+        else if (e.key === "ArrowLeft") { prev(); }
+      });
+
+      // Touch swipe support
+      let touchStartX = 0;
+      let touchStartY = 0;
+      track.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+        touchStartY = e.changedTouches[0].clientY;
+        stop();
+      }, { passive: true });
+
+      track.addEventListener("touchend", (e) => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+          dx < 0 ? next() : prev();
+        }
+        start();
+      }, { passive: true });
+
+      // Re-layout when crossing the desktop breakpoint
+      desktopQuery.addEventListener("change", (e) => {
+        perView = e.matches ? 3 : 1;
+        index = Math.min(index, pageCount() - 1);
+        buildDots();
+        update();
+      });
+
+      // Pause when the tab is hidden
+      document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+
+      setPauseButton();
+      buildDots();
+      update();
+      start();
+
+      /* =========================================================
+         10. FREE CHECKLIST GATE
+         ========================================================= */
+      let guideClaimed = false;
+
+      setupEmailGate(document.getElementById("guide-form"), () => {
+        guideClaimed = true;
+        document.getElementById("guide-copy").hidden = true;
+        document.getElementById("guide-unlocked").hidden = false;
+        document.getElementById("guide-unlocked-title").focus();
+      });
+
+      document.getElementById("guide-print").addEventListener("click", () => window.print());
+
+      /* =========================================================
+         11. ENQUIRY FORM VALIDATION & SUBMISSION
+         ========================================================= */
+      const formContainer = document.getElementById("form-container");
+      const submitBtn = document.getElementById("submit-btn");
+      let submitAttempted = false;
+      let enquirySent = false;
+
+      // Each validator returns an error message, or "" when valid
+      const validators = {
+        fullName: () => {
+          const v = clean(form.fullName.value, 80);
+          if (!v) return "Please tell us your name.";
+          if (v.length < 2) return "Name must be at least 2 characters.";
+          if (!NAME_RE.test(v)) return "Please use letters only (spaces, hyphens and apostrophes are fine).";
+          return "";
+        },
+        email: () => {
+          const v = clean(form.email.value, 254);
+          if (!v) return "Please enter your email address.";
+          if (!isEmail(v)) return "Please enter a valid email address (e.g. you@example.com).";
+          return "";
+        },
+        phone: () => {
+          const v = form.phone.value.trim();
+          if (!v) return "Please enter your phone number.";
+          if (!/^\d+$/.test(v)) return "Phone number must contain digits only.";
+          if (v.length < 8 || v.length > 15) return "Phone number must be 8 to 15 digits.";
+          return "";
+        },
+        interest: () => (form.interest.value ? "" : "Please pick what we can help with."),
+        contactMethod: () => (form.querySelector('input[name="contactMethod"]:checked') ? "" : "Please choose how we should reach you."),
+        message: () => (form.message.value.length > 1000 ? "Please keep your message under 1,000 characters." : ""),
+        consent: () => (form.consent.checked ? "" : "Please agree to be contacted so we can get back to you.")
+      };
+
+      // Element that receives the red border for each field
+      const borderTarget = (name) => {
+        if (name === "contactMethod") return document.getElementById("contactMethod-group");
+        if (name === "consent") return document.getElementById("consent-label");
+        return form.elements[name];
+      };
+
+      const showError = (name, msg) => {
+        document.getElementById(`${name}-error`).textContent = msg;
+        borderTarget(name).classList.add("invalid");
+        if (name !== "contactMethod") form.elements[name].setAttribute("aria-invalid", "true");
+      };
+
+      const clearError = (name) => {
+        document.getElementById(`${name}-error`).textContent = "";
+        borderTarget(name).classList.remove("invalid");
+        if (name !== "contactMethod") form.elements[name].removeAttribute("aria-invalid");
+      };
+
+      const validateField = (name) => {
+        const msg = validators[name]();
+        msg ? showError(name, msg) : clearError(name);
+        return !msg;
+      };
+
+      // Live re-validation after the first submit attempt
+      Object.keys(validators).forEach((name) => {
+        const fields = name === "contactMethod"
+          ? form.querySelectorAll('input[name="contactMethod"]')
+          : [form.elements[name]];
+        fields.forEach((field) => {
+          ["input", "change", "blur"].forEach((evt) =>
+            field.addEventListener(evt, () => { if (submitAttempted) validateField(name); })
+          );
+        });
+      });
+
+      // Validate on blur for fields the user has already filled in, even before submitting
+      ["email", "phone"].forEach((name) => {
+        form.elements[name].addEventListener("blur", () => {
+          if (form.elements[name].value.trim()) validateField(name);
+        });
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (enquirySent || throttled(form)) return;
+        submitAttempted = true;
+
+        const results = Object.keys(validators).map((name) => ({ name, ok: validateField(name) }));
+        const firstInvalid = results.find((r) => !r.ok);
+
+        if (firstInvalid) {
+          const el = firstInvalid.name === "contactMethod"
+            ? form.querySelector('input[name="contactMethod"]')
+            : form.elements[firstInvalid.name];
+          el.focus();
+          return;
+        }
+
+        // Valid: show loading state for 1.5s, then show the success message
+        enquirySent = true;
+        markSubmitted(form);
+        submitBtn.disabled = true;
+        submitBtn.classList.add("loading");
+        submitBtn.querySelector(".btn-text").textContent = "Sending...";
+
+        setTimeout(() => {
+          // Only whitelisted, cleaned fields leave the form (the honeypot never does)
+          const data = {
+            fullName: clean(form.fullName.value, 80),
+            email: clean(form.email.value, 254),
+            phone: form.phone.value.trim(),
+            interest: clean(form.interest.value, 60),
+            contactMethod: form.querySelector('input[name="contactMethod"]:checked').value,
+            message: clean(form.message.value, 1000),
+            consent: form.consent.checked,
+            leadSource: SOURCE_RE.test(leadSourceInput.value) ? leadSourceInput.value : "direct"
+          };
+          sendLead(form, data);
+          renderSuccess(data.fullName);
+        }, 1500);
+      });
+
+      const renderSuccess = (name) => {
+        const wrapper = document.getElementById("success-tpl").content.firstElementChild.cloneNode(true);
+        // textContent avoids injecting user input as HTML
+        wrapper.querySelector("h3").textContent = `Yay, thank you ${name}!`;
+        formContainer.replaceChildren(wrapper);
+        wrapper.focus();
+      };
+
+      /* =========================================================
+         12. NEWSLETTER SIGNUP
+         ========================================================= */
+      const newsletterForm = document.getElementById("newsletter-form");
+      setupEmailGate(newsletterForm, (setMsg) => {
+        setMsg("You're in! Check your inbox to confirm.", "success");
+        newsletterForm.reset();
+      });
+
+      /* =========================================================
+         13. STICKY MOBILE CTA (hidden over the hero and the form)
+         ========================================================= */
+      const stickyCta = document.getElementById("sticky-cta");
+      const inView = { home: true, contact: false };
+      const stickyObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => { inView[entry.target.id] = entry.isIntersecting; });
+        stickyCta.classList.toggle("show", !inView.home && !inView.contact);
+      }, { threshold: 0.05 });
+      ["home", "contact"].forEach((id) => stickyObserver.observe(document.getElementById(id)));
+
+      /* =========================================================
+         14. EXIT-INTENT OFFER (desktop pointers, once per session)
+         ========================================================= */
+      const exitDialog = document.getElementById("exit-dialog");
+      const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      let exitArmed = false;
+      setTimeout(() => { exitArmed = true; }, 10000);
+
+      document.documentElement.addEventListener("mouseleave", (e) => {
+        if (!finePointer || !exitArmed || e.clientY > 0) return;
+        if (guideClaimed || enquirySent || safeSession.get("hw-exit-shown")) return;
+        if (typeof exitDialog.showModal !== "function") return;
+        safeSession.set("hw-exit-shown", "1");
+        exitDialog.showModal();
+      });
+
+      exitDialog.querySelectorAll("[data-close]").forEach((el) => el.addEventListener("click", () => exitDialog.close()));
+      exitDialog.addEventListener("click", (e) => { if (e.target === exitDialog) exitDialog.close(); });
+
+      /* =========================================================
+         15. FOOTER YEAR
+         ========================================================= */
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      /* =========================================================
+         16. BACK-TO-TOP BUTTON
+         ========================================================= */
+      const backToTop = document.getElementById("back-to-top");
+
+      const toggleBackToTop = () => backToTop.classList.toggle("show", window.scrollY > 600);
+      window.addEventListener("scroll", toggleBackToTop, { passive: true });
+      toggleBackToTop();
+
+      backToTop.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+      });
+    });
+  </script>
+</body>
+</html>

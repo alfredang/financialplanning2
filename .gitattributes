@@ -1,0 +1,2 @@
+# Keep HTML as LF everywhere: the CSP hashes in v2/index.html are computed over LF text
+*.html text eol=lf

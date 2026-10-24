@@ -29,6 +29,20 @@ The page is organised into numbered, commented sections in each language. Keep t
   - **Enquiry form validation**: driven by the `validators` object, keyed by field `name`. Each validator returns an error message, or `""` when the field is valid. Every field needs a matching `<span id="{name}-error">`. To add a field, add the markup, its error span and a `validators` entry. The radio group and consent checkbox put their red border on a wrapper element (see `borderTarget`). On a valid submit, the form data is logged as JSON and the form is replaced by a success message. User input is inserted with `textContent` only.
   - `EMAIL_RE` is shared by the enquiry form and the newsletter form.
 
+## v2 revamp ([v2/index.html](v2/index.html), served at `/v2/`)
+
+v1 (root `index.html`) stays live unchanged. v2 follows the same single-file rules and section numbering, with these differences:
+
+- **Strict CSP and Trusted Types** in a `<meta>` tag that must stay first in `<head>`. Script and style are allowed only by SHA-256 hash, so after any edit to the inline CSS or JS run `node scripts/check-csp.mjs v2/index.html --write` (CI fails otherwise). Never use `innerHTML`, inline `style="..."` attributes or inline event handlers: Trusted Types and the CSP block them. Build DOM with `createElement`/`textContent`, or clone a `<template>` (`#star-tpl`, `#success-tpl`). Setting `el.style.x` from JS is fine. HTML files must stay LF (see `.gitattributes`), or the hashes won't match what Pages serves.
+- **No third-party images.** Avatars are CSS initials (`.avatar.av-1` to `av-4`). Icons and the "Penny" piggy mascot are `<symbol>`s in the SVG sprite at the top of `<body>`, used via `<use href="#id">`. Google Fonts (Fredoka + Nunito) is the only external resource.
+- **Clickjacking guard** (JS section 0) runs before the `DOMContentLoaded` handler. It's the one exception to the single-handler rule.
+- **Forms**: every form has a `.hp` honeypot input named `website`. `isLikelyBot` also rejects submits within 3s of page load, and `throttled` blocks repeats within 5s. Bot submissions get a fake success message and are never sent. All captured data goes through `sendLead()` (the placeholder for a real backend), which applies `csvSafe`. Inputs are run through `clean()` (strips control chars, caps length).
+  - The quiz-tips, checklist and newsletter forms share `setupEmailGate(form, onSuccess)`.
+  - The enquiry form keeps the `validators` pattern. `message` is optional and `ageRange` was removed. The honeypot and the hidden `leadSource` field have no validators entry.
+- **Lead tracking**: any link with `data-source` (`[a-z0-9:-]`) and/or `data-interest` (an exact `#interest` option value) sets `leadSource` and pre-selects the interest when clicked.
+- **Quiz** content lives in the `QUIZ` and `PERSONAS` constants. Each persona maps to an `interest` option.
+- **Media queries**: inline nav shows at ≥1024px (hamburger below that). The sticky mobile CTA hides at ≥1024px. A `print` block (prints only the unlocked checklist) comes before `prefers-reduced-motion`.
+
 ## Content notes
 
 The address, phone number, email address and testimonials are placeholders.

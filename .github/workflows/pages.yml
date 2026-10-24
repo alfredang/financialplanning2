@@ -30,20 +30,27 @@ jobs:
 
       - name: Check inline JavaScript syntax
         run: |
-          sed -n '/<script>/,/<\/script>/p' index.html | sed '1d;$d' > "$RUNNER_TEMP/hw_check.js"
-          node --check "$RUNNER_TEMP/hw_check.js"
+          for page in index.html v2/index.html; do
+            sed -n '/<script>/,/<\/script>/p' "$page" | sed '1d;$d' > "$RUNNER_TEMP/hw_check.js"
+            node --check "$RUNNER_TEMP/hw_check.js"
+          done
+
+      - name: Check CSP hashes match the inline style and script (v2)
+        run: node scripts/check-csp.mjs v2/index.html
 
       - name: Check for disallowed external JS and CSS
         run: |
           fail=0
-          if grep -nE '<script[^>]*\ssrc=' index.html; then
-            echo "::error file=index.html::External <script src> is not allowed (single-file constraint)"
-            fail=1
-          fi
-          if grep -nE '<link[^>]*rel="stylesheet"' index.html | grep -v 'https://fonts.googleapis.com/'; then
-            echo "::error file=index.html::Only Google Fonts stylesheets are allowed"
-            fail=1
-          fi
+          for page in index.html v2/index.html; do
+            if grep -nE '<script[^>]*\ssrc=' "$page"; then
+              echo "::error file=$page::External <script src> is not allowed (single-file constraint)"
+              fail=1
+            fi
+            if grep -nE '<link[^>]*rel="stylesheet"' "$page" | grep -v 'https://fonts.googleapis.com/'; then
+              echo "::error file=$page::Only Google Fonts stylesheets are allowed"
+              fail=1
+            fi
+          done
           exit $fail
 
   deploy:
@@ -63,11 +70,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Publish only the public site, never CLAUDE.md, README.md or tooling files
+      # Publish only the public site, never CLAUDE.md, README.md or tooling files.
+      # v1 stays at the root; the revamp is published alongside it at /v2/.
       - name: Stage site files
         run: |
-          mkdir -p _site
+          mkdir -p _site/v2
           cp index.html _site/
+          cp v2/index.html _site/v2/
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

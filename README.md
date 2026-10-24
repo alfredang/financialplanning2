@@ -4,11 +4,41 @@ One-page website for **Horizon Wealth Planning**, built with plain HTML, CSS and
 
 ![Deploy](https://github.com/alfredang/financialplanning2/actions/workflows/pages.yml/badge.svg)
 
-**Live site:** https://alfredang.github.io/financialplanning2/
+**Live sites:**
+
+- **v2 (revamp):** https://alfredang.github.io/financialplanning2/v2/
+- **v1 (original):** https://alfredang.github.io/financialplanning2/
 
 ![Horizon Wealth Planning homepage](docs/screenshot.png)
 
-## Features
+## v2: the revamp
+
+[v2/index.html](v2/index.html) is a friendlier, conversion-focused redesign, published alongside v1 at `/v2/`:
+
+- **Look and feel**: a playful style with cream, coral, mint and sunny-yellow colors, chunky outlined cards and Fredoka + Nunito fonts. "Penny", an inline-SVG piggy-bank mascot, replaces the stock photo.
+- **Lead magnets**:
+  - a 60-second **Money Personality quiz** (Squirrel, Otter, Owl or Bee); the 3 personalised tips are gated behind an email address
+  - an ungated **retirement calculator** with live sliders
+  - a gated **2026 Money Glow-Up Checklist** that unlocks on the page and can be printed
+  - an exit-intent offer, shown once per session
+  - a mobile sticky CTA bar, an announcement bar and an FAQ
+  - a shorter enquiry form
+- **Lead-source tracking**: every CTA tags the enquiry with a hidden `leadSource` (e.g. `quiz-owl`, `calculator`, `exit-popup`) and pre-fills the area of interest.
+- **Security hardening**:
+  - strict hash-based Content-Security-Policy and Trusted Types, with no `innerHTML` anywhere
+  - `form-action 'none'`, `base-uri 'none'` and a strict referrer policy
+  - a clickjacking frame guard
+  - honeypot fields, a submit time-trap and a submit throttle on every form
+  - control-character stripping, length caps and spreadsheet formula-injection neutralising on captured data
+  - no third-party images (the pravatar and Unsplash requests are gone)
+
+After editing the inline CSS or JS in `v2/index.html`, update the CSP hashes:
+
+```bash
+node scripts/check-csp.mjs v2/index.html --write
+```
+
+## Features (v1)
 
 - **Sticky header** with anchor navigation and a mobile hamburger menu. Anchor jumps are offset so the header never covers a section heading.
 - **Hero** with a full-width background image, a headline and animated stat counters (15+ years, 1,200+ clients, $500M managed). The counters read `data-target`, `data-prefix` and `data-suffix`.
@@ -46,7 +76,9 @@ sed -n '/<script>/,/<\/script>/p' index.html | sed '1d;$d' > /tmp/hw_check.js &&
 
 ```
 .
-├── index.html                    # The whole site: CSS in <head>, JS at the end of <body>
+├── index.html                    # v1 site: CSS in <head>, JS at the end of <body>
+├── v2/index.html                 # v2 revamp (served at /v2/)
+├── scripts/check-csp.mjs         # Checks/updates the v2 CSP hashes (not deployed)
 ├── .github/workflows/pages.yml   # CI checks and GitHub Pages deployment
 ├── docs/screenshot.png           # README screenshot (not deployed)
 ├── CLAUDE.md                     # Notes for Claude Code (not deployed)
@@ -61,9 +93,10 @@ Inside `index.html`, the CSS, HTML and JS are split into numbered, commented sec
 
 1. **check** runs on every push and pull request to `main`. It runs:
    - a [gitleaks](https://github.com/gitleaks/gitleaks) secret scan over the full git history
-   - `node --check` on the inline `<script>` from `index.html`
-   - a check that fails if `index.html` loads any external script, or any stylesheet other than Google Fonts
-2. **deploy** runs after `check` passes, on pushes to `main` and on manual runs. It copies only the public site files (`index.html`) into `_site/` and publishes that folder to GitHub Pages. Tooling files such as `CLAUDE.md` are never served.
+   - `node --check` on the inline `<script>` from `index.html` and `v2/index.html`
+   - `scripts/check-csp.mjs`, which fails if the v2 CSP hashes don't match its inline style and script
+   - a check that fails if either page loads any external script, or any stylesheet other than Google Fonts
+2. **deploy** runs after `check` passes, on pushes to `main` and on manual runs. It copies only the public site files (`index.html` and `v2/index.html`) into `_site/` and publishes that folder to GitHub Pages. Tooling files such as `CLAUDE.md` are never served.
 
 Deployment happens automatically on every push to `main`. To redeploy by hand, use **Actions → Deploy to GitHub Pages → Run workflow**, or run:
 
@@ -74,5 +107,6 @@ gh workflow run pages.yml
 ## Notes
 
 - The address, phone number, email address and testimonials are **placeholders**. Replace them before using the site for real.
-- The enquiry and newsletter forms don't send data anywhere. Connect them to a backend or form service to collect submissions.
+- The forms don't send data anywhere (they log JSON to the console). Connect them to a backend or form service, and send the checklist and quiz-tip emails from it, to collect submissions.
+- GitHub Pages can't set HTTP security headers. For `frame-ancestors`, `Permissions-Policy` and HSTS, put the site behind a CDN such as Cloudflare.
 - No license has been chosen yet.
