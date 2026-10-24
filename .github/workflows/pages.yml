@@ -1,31 +1,77 @@
-# Deploy the static site to GitHub Pages on every push to main
+# Check the site on every push and PR to main, then deploy it to GitHub Pages
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
-  deploy:
+  check:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check inline JavaScript syntax
+        run: |
+          sed -n '/<script>/,/<\/script>/p' index.html | sed '1d;$d' > "$RUNNER_TEMP/hw_check.js"
+          node --check "$RUNNER_TEMP/hw_check.js"
+
+      - name: Check for disallowed external JS and CSS
+        run: |
+          fail=0
+          if grep -nE '<script[^>]*\ssrc=' index.html; then
+            echo "::error file=index.html::External <script src> is not allowed (single-file constraint)"
+            fail=1
+          fi
+          if grep -nE '<link[^>]*rel="stylesheet"' index.html | grep -v 'https://fonts.googleapis.com/'; then
+            echo "::error file=index.html::Only Google Fonts stylesheets are allowed"
+            fail=1
+          fi
+          exit $fail
+
+  deploy:
+    needs: check
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
+      # Publish only the public site, never CLAUDE.md, README.md or tooling files
+      - name: Stage site files
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
